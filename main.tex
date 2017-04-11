@@ -1,5 +1,77 @@
-\documentclass{article}
+\documentclass[11pt]{article}
+
+%===== Packages =====
 \usepackage[utf8]{inputenc}
+%\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[english]{babel} % locale
+\usepackage{indentfirst} % indent first paragraph
+
+%\usepackage{natbib} % default
+\usepackage{biblatex} % bibliography
+\usepackage{csquotes} % recommended by biblatex
+\usepackage{url} % url formatting in references
+\usepackage[nottoc]{tocbibind} % add bibliography to toc
+\usepackage{graphicx} % default
+\usepackage{import} % for \import
+
+\usepackage{float} % position of images
+\usepackage{array,multirow} % combine rows in table
+\usepackage{siunitx} % spacing of SI units
+\usepackage[section]{placeins} % place image before section
+
+\usepackage{amsmath} % advanced maths
+\usepackage{gensymb} % specific symbols
+\usepackage{nicefrac} % nice linear fractions
+\usepackage{mathtools}
+\usepackage{relsize} % relative symbol size
+
+\usepackage{textcomp} % required by gensymb
+\usepackage{scrextend} % labeling (terms)
+\usepackage{amsthm} % lemmas
+\usepackage{enumerate} % advanced lists
+\usepackage{hyperref} % hyperlinks
+
+%===== Setup =====
+\graphicspath{ {images/} }
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+}
+\import{}{macros.tex}
+\addbibresource{bibliography.bib}
+\addbibresource{websites.bib}
+
+\setlength{\parskip}{0.3em}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+%===== Document =====
+\title{IMMC 2017 \\
+	\large Subtitle}
+\author{Zoltán Hanesz \\ Jakub Mach \\ Juraj Mičko \\ Michal Pándy}
+\date{April 2017}
+
 \begin{document}
-(Type your content here.)
+
+%----- Spacing -----
+\setlength{\abovedisplayskip}{0pt}
+%\setlength{\belowdisplayskip}{0pt}
+%\setlength{\abovedisplayshortskip}{0pt}
+%\setlength{\belowdisplayshortskip}{0pt}
+
+%----- Beginning -----
+\maketitle
+	\vfill
+\tableofcontents
+	\vfill\vfill
+	\clearpage
+
+%----- Content -----
+\import{}{content.tex}
+
+\clearpage
+\printbibliography[heading=bibintoc]
+
 \end{document}
