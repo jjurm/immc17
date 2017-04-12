@@ -1,0 +1,8 @@
+
+The first algorithm we examined was a method based on calculus. The thought process behind this approach is, to express the productivity of our team in a given place as a function of the coordinates of said place, with all of the other information, like date, place of origin of our attendees and their age. Then we could use differentiation to find the maximum value and so find the result in a constant time. 
+
+We know, that we can express the team's performance, as the sum of the individuals' performance. We also can express an  individual's performance if we have information about the place in question (e.g. temperature, timezone ...). However, we soon realized, that not every aspect  of a place can be expressed through its coordinates. 
+
+For example, if we wanted to express a the timezone of a place as a function, it would have to be a discontinuous function, because of the sudden changes between timezones. We could use a continuous function, to only approximate a place's time zone, however, we would end up with huge errors in the border regions. This problem becomes even more pronounced with qualities, such as temperature, humidity, or life quality index. 
+
+After some research we decided, that these factor had too big of an impact on a person's productivity to omit and even if we did simplify them to a usable level, it would only create huge errors. As a result we rejected this method.

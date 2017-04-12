@@ -1,0 +1,23 @@
+The average quality of life varies from country to country. Whilst some countries flourish in fairly constant prosperity, other countries experience humanitarian crisis. The quality of life index designed by The Economist Intelligence Unit combines subjective and objective indicators throughout different factors to create an index which tells the overall quality of life country by country. Although The Economist Intelligence Unit reaches out to a large number of countries, some of their indicators do not have a substantial influence on productivity. Examples of these are community life, family life and job security. 
+
+In the look for a more relevant index we have again come across Numbeo. The Numbeo quality of life index takes into account factors such as crime rates, safety, traffic, air pollution and water pollution which we believe are more relevant when it comes to productivity than the factors considered by The Economist Intelligence Unit. 
+
+The sole purpose of this factor in our model is to provide a country and city ranking which would somehow tell us more about the comfort and peace our attendants would be surrounded by. Due to the lack of data provided by Numbeo we will consider both countries and cities. Where there will not be data for a city, we will consider the country's index and where we will not find data for a country, we will find the most probable range for our desired index by looking at the given continent's country index values.
+
+Given a positive integer $n$ and a set of life indexes $L$ in a continent, where $n < |L|$, we construct $ \lceil \frac{|L|}{n}\rceil$ intervals starting at 0 with a step of $n$ and for every value in $L$ put it in the appropriate interval. The most probable interval will then be the one which encloses the highest number of index values. Now that we know the most probable range of index values we can estimate the desired index to be the average of these values. It is important to note that with a higher value of $n$ also the precision of our estimation increases, however we have to cautiously pick $n$ so that the most probable interval will exist. We find this approach more accurate than estimating one value for the whole world as index fluctuations are much less significant in each continent. Once we will have more data, we can easily add a country/city to our sub-model.
+
+The next step is to design a function which maps the linear scale of indexes to productivity percentages. We can take a similar approach as with noise and light pollution. Our function, defined on  $ x\in \langle min(L),max(L)\rangle$, where we already know that $min(L) = 0$ (since Venezuela has an index of 0 and there cannot be a negative index) will be: 
+
+$$P = f(x) = P_{min}^{\frac{max(L)-x}{max(L)}}$$
+
+\noindent where $P_{min}$ is a parameter which tells the productivity in the worst case scenario  (when $x=0$) thus $ P_{min}\in \langle -0,1\rangle$. Notice that $f(max(L))=1$ since for the best index we need to consider maximal productivity.
+
+It is not common for cities/countries to make sudden changes hence we can say that the actual index over the course of three meeting days is constant. In our model we also regard the 
+
+
+The model we have come up with is similar to the one we use for night and light pollution thus very similar shortcomings apply. 
+
+
+
+
+

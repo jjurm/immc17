@@ -1,7 +1,28 @@
 
-Moving someone to an international meeting we have to consider a number of factors that might have a subsequent impact on their productivity. Several factors are fairly apparent due to the severity and scope of their influence. Some of these more evident elements are jet lag, temperature difference, or altitude level. Nonetheless, further examination of more subtle aspects is crucial in order to maximize the credibility of our model. Factors such as noise pollution, crime, or rainfall all belong to this group of delicate aspects. In this part, we will firstly examine which factors to consider in our model. Secondly, we will design a model for each of them. And lastly, we are going to estimate how the effect of an observed sub-model changes over the course of 3 days.
+Moving someone to an international meeting we have to consider a number of factors that might have a subsequent impact on their productivity. Several factors are fairly apparent due to the severity and scope of their influence. Some of these more evident elements are jet lag, temperature difference, or altitude level. Nonetheless, further examination of more subtle aspects is crucial in order to maximize the credibility of our model. Factors such as noise pollution, crime, or rainfall all belong to this group of delicate aspects.
 
-Our sub-models heavily rely on data and research. These sources are sufficient enough to evaluate most relations and properties of the desired models, however in some cases there is a lack of adequate information for us to precisely design the effect on one's productivity. For instance, one resource \cite{wiki-humidity_effect} suggests that with rising humidity of more than 60\% our body responds gradually more and more critically. This means that we should consider a function of decreasing productivity for more than 60\% humidity. Yet we can only roughly estimate the scale to which this increase in humidity will actually take a toll on productivity. That is the reason for our inclusion of parameters in every model. The primary function of these parameters is to create models which are easily customizable. Customization means than any consequent research which goes deeper into the dependency of our factors and productivity can be easily included in our sub-models. Furthermore, using these parameters we can involve attendant input based on their preferences. Information as their age, ethnicity and rates to which they believe certain factors affect them can be easily obtained by simple psychological surveys. This way we will be able to tailor each model to predilections of our attendants. The parameters we use in the algorithm are based on our research of each influencing aspect.
+In this section, we will firstly examine which factors to consider in our model. Secondly, we will design a model for each of them. And lastly, we are going to estimate how the effect of an observed sub-model changes over the course of 3 days.
+
+Our sub-models heavily rely on data and research. These sources are sufficient enough to evaluate most relations and properties of the desired models, however in some cases there is a lack of adequate information for us to precisely design the effect on one's productivity. For instance, one resource \cite{wiki-humidity_effect} suggests that with rising humidity of more than 60\% our body responds gradually more and more critically. This means that we should consider a function of decreasing productivity for more than 60\% humidity. Yet we can only roughly estimate the scale to which this increase in humidity will actually take a toll on productivity. That is the reason for our inclusion of parameters in most of the models.
+
+The primary function of these parameters is to create models which are easily customizable. Customization means than any consequent research which goes deeper into the dependency of our factors and productivity can be easily included in our sub-models. Furthermore, using these parameters we can involve attendant input based on their preferences. Information as their age, ethnicity and rates to which they believe certain factors affect them can be easily obtained by simple psychological surveys. This way we will be able to tailor each model to predilections of our attendants. The parameters we use in the algorithm are based on our research of each influencing aspect.
+
+Each sub-model is a parametrized function returning the adjusted productivity based on a particular criterion.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{c|c}
+Parameters & Arguments \\
+\hline \hline
+attendant & destination \\
+meeting date & day index \\
+%\hline
+\end{tabular}
+\caption{parameters and arguments of a model function}
+\label{table:model-function}
+\end{table}
+
+Here, by the attendant parameter we mean every information that we decide to investigate (attendant's origin, age, etc.).
 
 \subsection{Jet Lag}
 \import{content/factors/}{jetlag}
@@ -18,8 +39,17 @@ Our sub-models heavily rely on data and research. These sources are sufficient e
 \subsection{Temperature}
 \import{content/factors/}{temperature}
 
-\subsection{Humidity}
+\subsection{Air humidity}
 \import{content/factors/}{humidity}
 
 \subsection{Noise and light pollution}
 \import{content/factors/}{noise_pollution}
+
+\subsection{Quality of life index}
+\import{content/factors/}{life_quality}
+
+\subsection{Diseases}
+\import{content/factors/}{diseases}
+
+\subsection{Precipitation}
+\import{content/factors/}{precipitation}

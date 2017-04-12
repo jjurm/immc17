@@ -1,1 +1,22 @@
-Another aspect of a local climate that can heavily influence the ability of an individual to work in a particular environment is the relative humidity of the surrounding air. Humidity directly influences the heat index, a metric that determines the human-perceived temperature, given objective air temperature and relative air humidity. 
+Another aspect of a local climate that can heavily influence the ability of an individual to work in a particular environment is the relative humidity of the surrounding air. Humidity directly influences the heat index, a metric that determines the human-perceived temperature, given objective air temperature and relative air humidity. In order to implement humidity into our model, we only need to calculate the heat index for a given location in a particular time and use it as an argument for our temperature model instead of objective temperature. Heat index $HI$ can be approximated using several formulas. We decided to use the most widely used one. This formula uses the Fahrenheit scale, so we also need to convert the dry-bulb temperature into Fahrenheit and the resulting value back to Celsius.
+
+$$HI_{\degree F}= c_1+c_{2}t_{\degree F}+c_{3}R+c_{4}t_{\degree F}R+c_{5}t_{\degree F}^2+c_{6}R^2+c_{7}t_{\degree F}^{2}R+c_{8}t_{\degree F}R^2+c_{9}t_{\degree F}^{2}R^2$$
+
+%$$HI_{\degree C}=\left(HI_{\degree F}\left(\dfrac{9}{5}\cdot t+32\right)-32 \right) \cdot \dfrac{5}{9}$$
+
+%$$HI_{\degree C}=\left( c_1+c_{2}\left(\dfrac{9}{5}\cdot t+32\right)+c_{3}R+c_{4}\left(\dfrac{9}{5}\cdot t+32\right) \cdot R+c_{5}\left(\dfrac{9}{5}\cdot t+32\right)^2+c_{6}R^2+c_{7}\left(\dfrac{9}{5}\cdot t+32\right)^{2}R+ \right.$$
+%\begin{flushright}
+%$\left. +c_{8}\left(\dfrac{9}{5}\cdot t+32\right) \cdot R^2+c_{9}\left(\dfrac{9}{5}\cdot t+32\right)^{2}R^2 -32 \right) \cdot \dfrac{5}{9}$
+%\end{flushright}
+
+\begin{align*}
+HI_{\degree F} &- \text{heat index in degrees Fahrenheit}\\
+t_{\degree F} &- \text{dry-bulb temperature in degrees Fahrenheit}\\
+\end{align*}
+\begin{align*}
+c_1 &= -42.379 & c_4 &= -0.22475541 & c_7 &= 1.22874 \cdot 10^{-3}\\
+c_2 &= 2.04901523 & c_5 &= -6.83783 \cdot 10^{-3} & c_8 &= 8.5280 \cdot 10^{-4}\\
+c_3 &= 10.14333127 & c_6 &= -5.481717 \cdot 10^{-2} & c_9 &= -1.99 \cdot 10^{-6}
+\end{align*}
+
+Now we can use the resulting value of $HI_{\degree C}$, heat index in degrees Celsius, as an argument for the our temperature model.

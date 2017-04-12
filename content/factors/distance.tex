@@ -1,7 +1,48 @@
 There is no doubt you remember having experienced a long exhausting journey after which your only desire was to rest. It describes just the way traveling works - you definitely have to spend more energy on it than on relaxing in your dream destination.
 
-Hence the loss of productivity of the attendants can be said to be proportional to the loss of vigor from the journey which can be estimated as being proportional to the time spent traveling.
+Hence the loss of productivity of the attendants can be said to be proportional to the loss of vigor from the journey which can be gauged as being proportional to the time spent traveling.
 
 $$(\text{productivity loss})\quad \propto\quad (\text{travel time})$$
 
+One approach from this point could be to \textbf{use} some \textbf{web API} for determining possible routes between the given origin and destination, for instance API provided by Google or Bing. This could lead to precise results as the APIs may be able to plan routes with possible flights and bus transfers supported by real time schedules.
 
+On the other hand, this concept would require huge number of requests towards the web service, considering the fact that we have to obtain routes data one by one for every pair of locations we want to consider. Therefore this kind of a brute-force solution is not suitable without further improvement by dramatically reducing the number of required web requests.
+
+Another method is to estimate the travel time to be proportional to the \textbf{distance between origin and destination}. Although this idea can lead to wrong results for some locations, it is fairly useful data resource considering the simplicity of the principle.
+
+There are several methods used for determining the great-circle distance between two points on a sphere given their longitudes and latitudes. See Table \ref{table:distance-methods} for their comparison.
+
+\begin{table}[h!]
+\centering \centering
+\begin{tabular}{|c|c|c|c|}
+\cline{2-4}
+\multicolumn{1}{c|}{} & \textbf{Law of Cosines} & \textbf{Haversine formula} & \textbf{Vincenty's formulae} \\
+\hline
+Accuracy & lower for small distances & sufficient & high \\
+\hline
+Nearly antipodal points & well handled & well handled & inaccurate results \\
+\hline
+Calculation time & normal & normal & slow \\
+\hline
+\end{tabular}
+\caption{Comparison of great-circle distance determining methods}
+\label{table:distance-methods}
+\end{table}
+
+Based on the pros and cons of each method, we decided that \emph{haversine formula} best suits our needs.
+
+Furthermore, it is generally known that because of agility and vigor of young people they are less affected by the exhaustion from a journey and even may be more willing to travel long distances in comparison with the elderly. Here we will use parameters $P_Y$ and $P_E$ which tells us the theoretical productivity in the first day after a journey of $\SI{20000}{km}$ of the young (age 18) and elderly (age 80), respectively. The distance $\SI{20000}{km}$ is chosen according to the fact that the Earth's circumference is approximately $\SI{40000}{km}$ and the maximum distance between two points is half of that.
+
+Let $P_M$ denote the theoretical productivity in the first day after a $\SI{20000}{km}$ journey by a particular attendant. We will use his age $A$ (in years) as following:
+
+$$P_M = P_Y - \frac{A - 18}{80 - 18} \cdot (P_Y - P_E) $$
+
+Further, since the productivity $P$ is in terms of percentages, we have to map the range $\left[ 0, \SI{20000}{km} \right]$ to the range $\left[ P_M, 100\% \right]$ exponentially and inversely. Let our function $f(x) = P$ for some distance $x$ be of the form $f(x) = e^{-Kd}$ with constant $K$. So far we know that $f(0) = 100\%$ and $f(\SI{20000}{km})=P_M$. With this we can calculate the constant.
+
+$$K = \frac{\ln(P_M)}{-\SI{20000}{km}}$$
+
+\noindent and
+
+$$P = f(x) = e^{-Kd} = e^{d \cdot \frac{\ln(P_M)}{\SI{20000}{km}}}$$
+
+However, the travel fatigue only affects the first day ($D=1$) of the meeting. For the following days, the attendants have enough time to catch up with their sleep and mend their energy deficit.
