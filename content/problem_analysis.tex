@@ -1,5 +1,19 @@
 
 The first step in solving this problem is going to be to analyze it and divide it into subproblems. First of all, we will need a way to compare the viability of two places. For this reason, it is necessary for us to be able to estimate the productivity of our team as precisely as possible.
 
-Every individual may be affected by the location differently. This may be due to different travel times required to reach the destination, different number of timezones crossed, or just personal prefference
-The participants are expected to contribute proximately equally, therefore no single one is more important than another.
+Every individual may be affected by the location differently. This may be due to different travel times required to reach the destination, different number of timezones crossed, or just personal preference. As a result, in order to calculate the performance of the entire team, we first need to determine the productivity of an individual in a given location. 
+
+In such a complex situation from real life, there are bound to be several factors influencing a person's productivity. To consider the effect of all these factors together is too difficult and likely to cause errors along the way. For this reason we decided to consider every factor's effect alone and only later combine the results together.
+
+The participants are expected to contribute approximately equally, therefore no single one is more important than another. From this condition, we can conclude, that nobody's work is dependent on the work of someone else. In practice, this means that we are going to reach the total productivity by summing up the productivities of all individuals.use the information gathered to find the best solution for the given situation. In this part, we will also consider price as a secondary priority.
+
+Then finally we can 
+
+The problem is therefore divided into several subproblems:
+\begin{itemize}
+\item Determine the significant factors influencing an individual's  productivity.
+\item Devise a model for determining the influence of each factor on an individual.
+\item Combine the models to estimate an individual's productivity in a given place.
+\item Determine the best locations.
+\item Offer a solution with the consideration of price.
+\end{itemize}

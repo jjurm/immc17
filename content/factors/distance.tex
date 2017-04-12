@@ -8,11 +8,9 @@ One approach from this point could be to \textbf{use} some \textbf{web API} for 
 
 On the other hand, this concept would require huge number of requests towards the web service, considering the fact that we have to obtain routes data one by one for every pair of locations we want to consider. Therefore this kind of a brute-force solution is not suitable without further improvement by dramatically reducing the number of required web requests.
 
-Another method is to estimate the travel time to be proportional to the \textbf{distance between origin and destination}. Although this idea can lead to wrong results for some locations, it is fairly useful data resource considering the simplicity of the principle.
+Another method is to estimate the travel time to be proportional to the \textbf{distance between origin and destination}. Although this idea can lead to wrong results for some locations, it is fairly useful data resource considering the simplicity of the principle. There are several methods used for determining the great-circle distance between two points on a sphere given their longitudes and latitudes. See Table \ref{table:distance-methods} for their comparison.
 
-There are several methods used for determining the great-circle distance between two points on a sphere given their longitudes and latitudes. See Table \ref{table:distance-methods} for their comparison.
-
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering \centering
 \begin{tabular}{|c|c|c|c|}
 \cline{2-4}
