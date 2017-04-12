@@ -1,16 +1,25 @@
-
-Bad rainy weather in general induces a negative mood, so naturally, we feel that our work productivity should be decreased by its effect. This fact is supported by a recent study, which shows, that about 82\% of the respondents thought that weather conditions would increase productivity, and about 83\% responded that bad weather conditions would decrease productivity.
+ 
+Bad rainy weather in general induces a negative mood, so naturally, we feel that our work productivity should be decreased by its effect. This fact is supported by a recent study \CN{Lee2014}, which shows, that about 82\% of the respondents thought that weather conditions would increase productivity, and about 83\% responded that bad weather conditions would decrease productivity.
 
 However, the same study suggests, that on a sunny day people are tempted to think about doing outdoor activities and they tend to be less focused on their work. This hypothesis was tested by assessing worker productivity using archival data from a Japanese bank’s home-loan mortgage-processing line. The data includes information on the line from the rollout date, June 1, 2007 until December 30, 2009, a 2.5-year time period. In total 598,393 transactions made by 111 workers were examined. 
 
-According to the results of this study, a one-inch increase in rain is related to a 1.363\% decrease in time required for each transaction, which leads to better productivity. Also, the error rates were very small (less than 3\%) and the variation was  little, so we can consider the decreased time the only change in productivity. 
+According to the results of this study, a one-inch (25.4mm) increase in rain is related to a 1.363\% decrease in time required for each transaction, which leads to better productivity. Also, the error rates were very small (less than 3\%) and the variation was  little, so we can consider the decreased time the only change in productivity. 
 
-To determine the increase in rain, comparison between the precipitation in the home country ($p_H$) and the destination ($p_D$) is required. We used historical precipitation data per month derived from the Climate Research Unit (Mitchell et al, 2003), aggregated by countries. The increase in rain is calculated as the difference between ($p_H$) and ($p_D$) divided by 2.54 (conversion from cm to inch): $\frac{(p_D - p_H)}{2.54}$.
+We can use this data to estimate the effect precipitation has on a worker's productivity. Firstly, we will express the relation between the increase in rain and the reduction of time needed to complete a task. The data in the aforementioned research suggests, that if $t(x)$ is the time needed to complete a task in $x$ mm of rainfall, then:
 
-Since we know, that a one-inch increase in rain results in a 1.363\% decrease in time, a one-inch increase leads to a 1.363\% increase in productivity. The study suggests that the functionality between the increased amount of rain and productivity is linear, which means, that productivity can be calculated the following way:
+$$t(x)=(100\%-1.363\%) \cdot t(x-25.4)$$
 
-$$P=\frac{(p_D - p_H)}{2.54}\cdot 1.01363$$
+From this, we can determine, that this relation can be estimated by an exponential function:
 
+$$t(x)= \left( \dfrac{100-1.363}{100} \right)^{\dfrac{x}{25.4}}$$
+
+Now we have to estimate productivity based on time needed to finish a task in with a given precipitation. The more productive a person is, the less time they need to finish a task. We can therefore say, that a person's productivity is inversely proportional to the time. 
+
+$$P=\dfrac{1}{t(x)}$$
+
+$$P=\left( \dfrac{100-1.363}{100} \right)^{\left( -1 \cdot \dfrac{x}{25.4} \right)}$$
+
+According to the research we base our theory on, the higher precipitation is, the more productive a person becomes. Hence we cannot say, that a certain level of productivity is the maximum possible. Our model for this factor will consequently be the only one, which can return a value of productivity higher than $1$. 
 
 Precipitation is a factor, that reflects the entire climate of a certain area. It is highly unlikely, that someone coming from a different climate would get used to it over the course of three days, so this aspect is not considered in our model.
 
