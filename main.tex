@@ -62,7 +62,7 @@
 %===== Document =====
 \title{IMMC 2017 \\
 	\large Problem: Jet Lag}
-\author{Zoltán Hanesz \\ Jakub Mach \\ Juraj Mičko \\ Michal Pándy}
+%\author{Zoltán Hanesz \\ Jakub Mach \\ Juraj Mičko \\ Michal Pándy}
 \date{April 2017}
 
 \begin{document}
@@ -74,12 +74,22 @@
 \setlength{\belowdisplayskip}{0pt}
 
 %----- Beginning -----
+\vfill
 \maketitle
-%\tableofcontents
-{\small\tableofcontents}
+\vfill
+\section{Summary}
+\import{content/}{summary}
+\vfill
+
+\clearpage
+
+%\thispagestyle{empty}
+\tableofcontents
+%{\small\tableofcontents}
 	\clearpage
 
 %----- Content -----
+%\setcounter{page}{1}
 \import{}{content.tex}
 
 
