@@ -1,16 +1,16 @@
 
-The first step in solving this problem is going to be to analyze it and divide it into subproblems. First of all, we will need a way to compare the viability of two places. For this reason, it is necessary for us to be able to estimate the productivity of our team as precisely as possible.
+The first step in solving this problem will be to analyze it and divide it into subproblems. First of all, we will need a way to compare the viability of two locations. For this reason, it is necessary for us to be able to estimate the productivity of our team as precisely as possible.
 
-Every individual may be affected by the location differently. This may be due to different travel times required to reach the destination, different number of timezones crossed, or just personal preference. As a result, in order to calculate the performance of the entire team, we first need to determine the productivity of an individual in a given location. 
+Every individual may be affected by the location differently. This may be due to different travel times required to reach the destination, a different number of time zones crossed, or just personal preference. As a result, in order to calculate the performance of the entire team, we first need to determine the productivity of an individual in a given location. 
 
-In such a complex situation from real life, there are bound to be several factors influencing a person's productivity. To consider the effect of all these factors together is too difficult and likely to cause errors along the way. For this reason we decided to consider every factor's effect alone and only later combine the results together.
+In such a complex situation, there are bound to be several factors influencing a person's productivity. Considering the effect of all these factors combined would be nearly impossible. For this reason, we decided to consider every factor's effect by itself with the assumption, that except for a few simple cases, these factors don't influence each other. Is it also important to investigate, how the effects of these factors may change throughout the meeting. The total productivity of a person should therefore be the sum of their productivities across the three days. 
 
-The participants are expected to contribute approximately equally, therefore no single one is more important than another. From this condition, we can conclude, that nobody's work is dependent on the work of someone else. In practice, this means that we are going to reach the total productivity by summing up the productivities of all individuals.use the information gathered to find the best solution for the given situation. In this part, we will also consider price as a secondary priority.
+An important condition in this problem is, that the participants are expected to contribute approximately equally, therefore no single one is more important than another. From this condition, we can conclude, that nobody's work is fully dependent on the work of someone else. In practice, this means that we are going to reach the total productivity by summing up the productivities of all individuals. 
 
-Then finally we can 
+Another part of this problem, is going to be designing an algorthm for using the processes described in the previous parts of the paper to find the best locations. In this part, we will also consider price as a secondary priority.
 
 The problem is therefore divided into several subproblems:
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
 \item Determine the significant factors influencing an individual's  productivity.
 \item Devise a model for determining the influence of each factor on an individual.
 \item Combine the models to estimate an individual's productivity in a given place.

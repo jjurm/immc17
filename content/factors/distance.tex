@@ -6,7 +6,7 @@ $$(\text{productivity loss})\quad \propto\quad (\text{travel time})$$
 
 One approach from this point could be to \textbf{use} some \textbf{web API} for determining possible routes between the given origin and destination, for instance API provided by Google or Bing. This could lead to precise results as the APIs may be able to plan routes with possible flights and bus transfers supported by real time schedules.
 
-On the other hand, this concept would require huge number of requests towards the web service, considering the fact that we have to obtain routes data one by one for every pair of locations we want to consider. Therefore this kind of a brute-force solution is not suitable without further improvement by dramatically reducing the number of required web requests.
+On the other hand, this concept would require a huge number of requests towards the web service, considering the fact that we have to obtain routes data one by one for every pair of locations we want to consider. Therefore this kind of a brute-force solution is not suitable without further improvement by dramatically reducing the number of required web requests.
 
 Another method is to estimate the travel time to be proportional to the \textbf{distance between origin and destination}. Although this idea can lead to wrong results for some locations, it is fairly useful data resource considering the simplicity of the principle. There are several methods used for determining the great-circle distance between two points on a sphere given their longitudes and latitudes. See Table \ref{table:distance-methods} for their comparison.
 
@@ -27,15 +27,14 @@ Calculation time & normal & normal & slow \\
 \label{table:distance-methods}
 \end{table}
 
-Based on the pros and cons of each method, we decided that \emph{haversine formula} best suits our needs.
+Based on the pros and cons of each method (see Table \ref{table:distance-methods}), we decided that \emph{haversine formula} best suits our needs.
 
 Furthermore, it is generally known that because of agility and vigor of young people they are less affected by the exhaustion from a journey and even may be more willing to travel long distances in comparison with the elderly. Here we will use parameters $P_Y$ and $P_E$ which tells us the theoretical productivity in the first day after a journey of $\SI{20000}{km}$ of the young (age 18) and elderly (age 80), respectively. The distance $\SI{20000}{km}$ is chosen according to the fact that the Earth's circumference is approximately $\SI{40000}{km}$ and the maximum distance between two points is half of that.
-
-Let $P_M$ denote the theoretical productivity in the first day after a $\SI{20000}{km}$ journey by a particular attendant. We will use his age $A$ (in years) as following:
+Let $P_M$ denote the theoretical productivity in the first day after a $\SI{20000}{km}$ journey by a particular attendant. We will use his age $A$ (in years) as follows:
 
 $$P_M = P_Y - \frac{A - 18}{80 - 18} \cdot (P_Y - P_E) $$
 
-Further, since the productivity $P$ is in terms of percentages, we have to map the range $\left[ 0, \SI{20000}{km} \right]$ to the range $\left[ P_M, 100\% \right]$ exponentially and inversely. Let our function $f(x) = P$ for some distance $x$ be of the form $f(x) = e^{-Kd}$ with constant $K$. So far we know that $f(0) = 100\%$ and $f(\SI{20000}{km})=P_M$. With this we can calculate the constant.
+Furthermore, since the productivity $P$ is in terms of percentages, we have to map the range $\left[ 0, \SI{20000}{km} \right]$ to the range $\left[ P_M, 100\% \right]$ exponentially and inversely. Let our function $f(x) = P$ for some distance $x$ be of the form $f(x) = e^{-Kd}$ with constant $K$. So far we know that $f(0) = 100\%$ and $f(\SI{20000}{km})=P_M$. With this we can calculate the constant.
 
 $$K = \frac{\ln(P_M)}{-\SI{20000}{km}}$$
 
@@ -44,3 +43,13 @@ $$K = \frac{\ln(P_M)}{-\SI{20000}{km}}$$
 $$P = f(x) = e^{-Kd} = e^{d \cdot \frac{\ln(P_M)}{\SI{20000}{km}}}$$
 
 However, the travel fatigue only affects the first day ($D=1$) of the meeting. For the following days, the attendants have enough time to catch up with their sleep and mend their energy deficit.
+
+One improvement to this sub-model would be to guess how difficult it will be to travel to a particular destination. We can assess the probability that the city will have an airport, or that the the train or bus station will be accessible with more travel connections. Population is exactly the attribute that helps us estimate the value. The more people live in a city, the more connections should the city afford.
+
+We can not easily determine the probability of a city having an airport, but we can increase the productivity proportionally with the population to increase the chance that the city will be chosen as one of the most suitable destinations. For this we can use the following formula with parameter $P_P$ telling the increase of productivity in percentages per a certain amount of increase in population. $p$ denotes the population of the city. We use square root of $p$ so that the population difference between extremely large cities doesn't make so huge difference in productivity as opposed to a difference between smaller cities.
+
+$$P = f(x) + P_P \cdot \frac{\sqrt[]{p}}{10^6}$$
+
+\noindent where 
+
+This introduces an exceptional factor in the way that it can return productivity higher than $100\%$. This is because we cannot identify one's ideal productivity when evaluating population of cities, as there is no maximal restriction of population.

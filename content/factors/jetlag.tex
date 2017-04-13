@@ -1,30 +1,37 @@
 
-The first and potentially the most severe factor we need to consider is jet lag. It refers to a physiological condition caused by a misalignment of local time with the body's circadian rhythm, a process responsible for the control of biological processes based on the time of day. As a result the patients most often experience insomnia and daytime sleepiness but the symptoms may also include dysphoric mood and gastrointestinal disturbances \cite{Sack2010}, all of which cause a decline in productivity.
+The first and potentially the most severe factor we need to consider is jet lag. It refers to a physiological condition caused by a misalignment of local time with the body's circadian rhythm, a process responsible for the control of biological processes based on the time of day. As a result, patients most often experience insomnia and daytime sleepiness but the symptoms may also include dysphoric mood and gastrointestinal disturbances \cite{Sack2010}, all of which cause a decline in productivity.
 
-Research \cite{Cho} has shown, that this effect only occurs when conducting trans-meridian travel and is dependent on the time difference between the origin and the destination. Traveling within a single timezone, therefore, doesn't induce jet lag. It has also been shown that the symptoms of jet lag are stronger after eastward time-zone transition than after westward time-zone transition \cite{Lemmer2002}. The severity of these symptoms and the length of recovery needed seem to some extent chaotic, however they follow certain trends, which we based our model on. 
+Research \cite{Cho} has shown, that this effect only occurs when conducting trans-meridian travel and is dependent on the time difference between the origin and the destination. Traveling within a single time
+zone, therefore, doesn't induce jet lag. It has also been shown that the symptoms of jet lag are stronger after eastward time zone transition than after westward time zone transition \cite{Lemmer2002}. The severity of these symptoms and the length of recovery needed seem to some extent chaotic, however they follow certain trends, which we based our model on. 
 
-The recovery length has been estimated by the Finnish Institute of Occupational Health to be roughly $d/L_E$ days for eastward travel and $d/L_W$ days for westward travel, where $L_E = 2, L_W = 2.5$ and $d$ is the time difference between the origin and the destination in hours.
+The recovery length has been estimated by the Finnish Institute of Occupational Health to be roughly $d/L_E$ days for eastward travel and $d/L_W$ days for westward travel, where $L_E = 2, L_W = 2.5$ and $d$ is the time difference between the origin and the destination in hours. It means that $L_E$ is the number of hour difference one is able to adapt to during one day after travel.
 
-Let $P_W$ denote the theoretical productivity in the first day after traveling east to a place with 12 hour timezone offset providing that you have to recover by shortening your circadian rhythm for the duration of recovery. Then let $P_E$ denote the same after traveling west to a 12 hour timezone offset place providing that you have to recover by temporarily prolonging your circadian rhythm. Note that $P_W$ and $P_E$ are only theoretical productivity values. Even though the destinations when traveling east and west are the same (in a timezone exactly opposite the current location), the difference between $P_W$ and $P_E$ is in the way it expects one's body to recover, by temporarily shortening or prolonging the circadian rhythm, respectively, to settle the time offset.
+Let $P_W$ denote the theoretical productivity in the first day after traveling east to a place with 12 hour time zone offset providing that you have to recover by shortening your circadian rhythm for the duration of recovery. Then let $P_E$ denote the same after traveling west to a 12 hour time zone offset place providing that you have to recover by temporarily prolonging your circadian rhythm. Note that $P_W$ and $P_E$ are only theoretical productivity values. Even though the destinations when traveling east and west are the same (in a time zone exactly opposite the current location), the difference between $P_W$ and $P_E$ is in the way it expects one's body to recover, by temporarily shortening or prolonging the circadian rhythm, respectively, to settle the time offset.
 
 As the recovery length is inversely proportional to the amount of productivity, we can see that the following equation holds:
 
 $$\frac{P_W}{P_E} = \frac{L_E}{L_W} = \frac{2}{2.5}$$
 
 Suppose we have $P_M$ as a parameter, which stands for the geometric mean of $P_W$ and $P_E$. Geometric mean is used because we are speaking in terms of percentages.
-
+% * <miroslav.ms.stankovic@gmail.com> 2017-04-12T22:35:08.832Z:
+% 
+% > Geometric mean is used because we are speaking in terms of percentages.
+% could use a bit more explanation maybe?
+% edit: uz vidim ze je to explained v casti 3
+% 
+% 
+% ^.
 $$P_M = \sqrt[]{P_W P_E}$$
 
 From these two equations we can calculate the two values of productivity as follows:
 
 \begin{align*}
-P_W &= P_M \ \sqrt[]{\frac{L_E}{L_W}}\\
-P_E &= P_M \ \sqrt[]{\frac{L_W}{L_E}}
+P_W &= P_M \ \sqrt[]{\frac{L_E}{L_W}} & P_E &= P_M \ \sqrt[]{\frac{L_W}{L_E}}
 \end{align*}
 
-We calculate the time difference $d$ as the difference between the offsets of the two timezones (origin and destination) from UTC at the specified date of the meeting and then $d$ is equal to the difference of the two offsets. Determining a timezone offset also requires the meeting date, as it also takes into account daylight saving.
+We calculate the time difference $d$ as the difference between the offsets of the two time zones (origin and destination) from UTC at the specified date of the meeting and then $d$ is equal to the difference between the two offsets. Determining a time zone offset also requires the meeting date, as it also takes into account daylight saving.
 
-Finally, we calculate the loss of productivity that would be caused by letting your body adapt to the time change by either shortening and prolonging the circadian rhythm and pick the option with more productivity. Here we assume that the body would choose the more natural way, i.e. with the smallest negative impact on productivity. At last the equation is combined with $D$, the day index. By the $i$-th day ($D = i$), attendant is negatively affected by jet lag as if the timezone difference was decreased by $i\cdot L_E$ or $i \cdot L_W$ accordingly.
+Finally, we calculate the loss of productivity that would be caused by letting your body adapt to the time zone change by either shortening and prolonging the circadian rhythm and pick the option with more productivity. Here we assume that the body would choose the more natural way, i.e. with the smallest negative impact on productivity. At last, the equation is combined with $D$, the day index. By the $i$-th day ($D = i$), attendant is negatively affected by jet lag as if the time zone difference was decreased by $i\cdot L_E$ or $i \cdot L_W$ accordingly, because he has been adapting to the time zone change for $i$ days with the rate of $L_E$ or $L_W$.
 
 \begin{align*}
 d &= \Big | \ {(\text{offset of destination from UTC}) - (\text{offset of origin from UTC})} \ \Big | \\
@@ -33,17 +40,23 @@ L &=
     L_E ,& \text{if traveling east}\\
     L_W  & \text{otherwise}
 \end{cases} \\
-P &= 
+P_O &= 
 \begin{cases}
     P_E ,& \text{if traveling east}\\
     P_W  & \text{otherwise}
 \end{cases}
 \end{align*}
 
-For simplicity of the final equation, let $R$ be equal to the ratio of amount of timezone difference in hours that the attendant is still to be adapted to and the constant 12, which stands for the maximum timezone difference.
+For simplicity of the final equation, let $R$ be equal to the ratio of the amount of time zone difference in hours that the attendant is still to be adapted to and the constant 12, which stands for the maximum time zone difference.
 
 $$R = \frac{max(0, d - L \cdot (D - 1))}{12}$$
 
 Based on the observation and personal experience of the authors, we estimate that the dependency of productivity loss on $R$ is quadratic. The productivity can be then projected with this formula:
+% * <miroslav.ms.stankovic@gmail.com> 2017-04-12T22:35:53.319Z:
+% 
+% > and personal experience of the authors
+% nice :D
+% 
+% ^._
 
-$$P = 1 - R ^ 2 \cdot (1 - P) = \left( \frac{max(0, d - L \cdot (D - 1))}{12} \right) ^ 2 \cdot (1 - P) $$
+$$P = 1 - R ^ 2 \cdot (1 - P_O) = \left( \frac{max(0, d - L \cdot (D - 1))}{12} \right) ^ 2 \cdot (1 - P_O) $$

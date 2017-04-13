@@ -1,17 +1,17 @@
 
 A number of studies suggest, that lower sunlight levels lead to lower productivity. That is mainly caused by the release of the natural hormone, Melatonin, which is directly affected by the amount of sunlight one receives.
 
-A professional consulting company, the Heschong Mahone Group, conducted a study on grades and sunlight exposure in the elementary school classrooms. According to their studies \cite{daylight2002}, among twelve models considered, there is a central tendency of a 21\%  improvement in student learning rates from those in classrooms with the least amount of daylight compared to those with the most. From this data we can say that a person working in bad lighting conditions, such as purely artificial lighting experience a drop to $100\%/121\%\doteq83.\overline{3}\%$ of their productivity compared to ideal conditions. In our model, the difference between productivity in daylight and nighttime is based on this data.
+A professional consulting company, the Heschong Mahone Group, conducted a study on grades and sunlight exposure in the elementary school classrooms. According to their studies \cite{daylight2002}, among twelve models considered, there is a central tendency of a 21\%  improvement in student learning rates from those in classrooms with the least amount of daylight compared to those with the most. From this data, we can say that a person working in bad lighting conditions, such as purely artificial lighting experience a drop to $100\%/121\%\doteq83.\overline{3}\%$ of their productivity compared to ideal conditions. In our model, the difference between productivity in daylight and nighttime is based on this data.
 
-An average workday consists of usually 8 working hours (our model allows the user to set specific working hours). In order to correctly determine the influence of daylight, we need to calculate the amount of time the sun is up on an average workday and then apply the data from the study of the Heschong Mahone Group. 
+An average workday consists of usually 8 working hours (our model allows the user to set a number of working hours). In order to correctly determine the influence of daylight, we need to calculate the amount of time the sun is up on an average workday and then apply the data from the study of the Heschong Mahone Group. 
 
-Naturally this model does not take into consideration that in a particular place a day may in fact end up being shorter because of obstructions, such as hills and mountains. However, taking these differences into account for every area that is being evaluated is virtually impossible. Our model can at least give us a useful approximation of the real length of day and it's effect on a person's cognitive functions.
+Naturally, this model does not take into consideration that in a particular place a day may, in fact, end up being shorter because of obstructions, such as hills and mountains. However, taking these differences into account for every area that is being evaluated is virtually impossible. Our model can at least give us a useful approximation of the real length of day and it's effect on a person's cognitive functions.
 
 To calculate the times of sunrise and sunset we will use the sunrise equation:
 
 $$cos(h)=-tan(\phi)tan(\delta)$$
 
-Where $\phi$ is the geographical latitude of the place in question, $\delta$ is the sun declination, a value that changes throughout the year and can be calculated from date and axial tilt, for this we will use a value from a precomputed table based on the day of the year. Here $h$ is the hour angle, which can be calculated as $30\degree \times (T-12)$, where $T$ is the local time in hours. It is also wort noting, that angles in geographical variables are usually expressed in degrees, rather than radians. Therefore, we will consider all angles in this section to be expressed in degrees.
+Where $\phi$ is the geographical latitude of the place in question, $\delta$ is the sun declination, a value that changes throughout the year and can be calculated from date and axial tilt, for this we will use a value from a precomputed table based on the day of the year. Here $h$ is the hour angle, which can be calculated as $30\degree \times (T-12)$, where $T$ is the local time in hours. It is also worth nothing, that angles in geographical variables are usually expressed in degrees, rather than radians. Therefore, we will consider all angles in this section to be expressed in degrees.
 
 $$h=\pm arccos(-tan(\phi)tan(\delta))$$
 
@@ -26,12 +26,9 @@ The next step will be to calculate the ratio $R_L$ of how much time designated a
 
 $$R_L = \frac{\text{working time during nighttime}}{\text{total working time}}$$
 
-Given the parameters of start and end times of work this calculation becomes quite trivial. The final productivity of a person in such an environment will be:
+Given the parameters of start and end times of work, this calculation becomes quite trivial. The final productivity of a person in such an environment will be:
 
 $$P=R_L \cdot 0.8\overline{3}+(1-R_L)\cdot 1$$
-
-
-
 
 
 

@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass{article}
 
 %===== Packages =====
 \usepackage[utf8]{inputenc}
@@ -30,8 +30,17 @@
 \usepackage{scrextend} % labeling (terms)
 \usepackage{amsthm} % lemmas
 \usepackage{enumerate} % advanced lists
-\usepackage{hyperref} % hyperlinks
+\usepackage{enumitem} % custom list item spacing
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} % hyperlinks
 \usepackage{multirow} % for tables
+\usepackage[titletoc,title]{appendix} % name of appendix chapters
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\usepackage{minted}
+\usepackage{pdfpages}
 
 
 %===== Setup =====
@@ -41,17 +50,18 @@
     linkcolor=black,
     urlcolor=blue,
 }
+
 \import{}{macros.tex}
 \addbibresource{bibliography.bib}
 \addbibresource{websites.bib}
 
-\setlength{\parskip}{0.3em}
+\setlength{\parskip}{0.2em}
 
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
 %===== Document =====
 \title{IMMC 2017 \\
-	\large Subtitle}
+	\large Problem: Jet Lag}
 \author{Zoltán Hanesz \\ Jakub Mach \\ Juraj Mičko \\ Michal Pándy}
 \date{April 2017}
 
@@ -60,20 +70,18 @@
 %----- Spacing -----
 \setlength{\abovedisplayskip}{0pt}
 %\setlength{\belowdisplayskip}{0pt}
-%\setlength{\abovedisplayshortskip}{0pt}
-%\setlength{\belowdisplayshortskip}{0pt}
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
 
 %----- Beginning -----
 \maketitle
-	\vfill
-\tableofcontents
-	\vfill\vfill
+%\tableofcontents
+{\small\tableofcontents}
 	\clearpage
 
 %----- Content -----
 \import{}{content.tex}
 
-\clearpage
-\printbibliography[heading=bibintoc]
+
 
 \end{document}

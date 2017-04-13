@@ -1,25 +1,30 @@
  
-Bad rainy weather in general induces a negative mood, so naturally, we feel that our work productivity should be decreased by its effect. This fact is supported by a recent study \CN{Lee2014}, which shows, that about 82\% of the respondents thought that weather conditions would increase productivity, and about 83\% responded that bad weather conditions would decrease productivity.
+Bad rainy weather, in general, induces a negative mood, so naturally, we feel that our work productivity should be decreased by its effect. This fact is supported by a recent study \cite{Leea}, which shows that about 82\% of the respondents thought that weather conditions would increase productivity, and about 83\% responded that bad weather conditions would decrease productivity.
 
-However, the same study suggests, that on a sunny day people are tempted to think about doing outdoor activities and they tend to be less focused on their work. This hypothesis was tested by assessing worker productivity using archival data from a Japanese bank’s home-loan mortgage-processing line. The data includes information on the line from the rollout date, June 1, 2007 until December 30, 2009, a 2.5-year time period. In total 598,393 transactions made by 111 workers were examined. 
+However, the same study suggests that on a sunny day people are tempted to think about doing outdoor activities and they tend to be less focused on their work. This hypothesis was tested by assessing worker productivity using archival data from a Japanese bank’s home-loan mortgage-processing line. The data includes information on the line from the roll-out date, June 1, 2007, until December 30, 2009, a 2.5-year time period. In total 598,393 transactions made by 111 workers were examined. 
 
-According to the results of this study, a one-inch (25.4mm) increase in rain is related to a 1.363\% decrease in time required for each transaction, which leads to better productivity. Also, the error rates were very small (less than 3\%) and the variation was  little, so we can consider the decreased time the only change in productivity. 
+According to the results of this study, a one-inch (25.4mm) increase in rain is related to a 1.363\% decrease in time required for each transaction, which leads to better productivity. Also, the error rates were very small (less than 3\%) and the variation was little, so we can consider the decreased time the only change in productivity. 
 
-We can use this data to estimate the effect precipitation has on a worker's productivity. Firstly, we will express the relation between the increase in rain and the reduction of time needed to complete a task. The data in the aforementioned research suggests, that if $t(x)$ is the time needed to complete a task in $x$ mm of rainfall, then:
+We can use this data to estimate the effect precipitation has on a worker's productivity. Firstly, we will express the relation between the increase in rain and the reduction of time needed to complete a task. The data in the aforementioned research suggests that if $t(x)$ is the time needed to complete a task in $x$ mm of rainfall, then:
 
 $$t(x)=(100\%-1.363\%) \cdot t(x-25.4)$$
 
-From this, we can determine, that this relation can be estimated by an exponential function:
+From this, we can determine that this relation can be estimated by an exponential function:
 
-$$t(x)= \left( \dfrac{100-1.363}{100} \right)^{\dfrac{x}{25.4}}$$
+$$t(x)= \left( 100\% - 1.363\% \right)^{\dfrac{x}{25.4}}$$
 
-Now we have to estimate productivity based on time needed to finish a task in with a given precipitation. The more productive a person is, the less time they need to finish a task. We can therefore say, that a person's productivity is inversely proportional to the time. 
+Now we have to estimate the productivity based on time needed to finish a task with a given precipitation. The more productive a person is, the less time they need to finish a task. We can therefore say, that a person's productivity is inversely proportional to the time. 
 
-$$P=\dfrac{1}{t(x)}$$
+\begin{align*}
+P &= \dfrac{1}{t(x)}\\
+P &= \left( 100\% - 1.363\% \right)^{\dfrac{-x}{25.4} }
+\end{align*}
 
-$$P=\left( \dfrac{100-1.363}{100} \right)^{\left( -1 \cdot \dfrac{x}{25.4} \right)}$$
+According to the research, we base our theory on, the higher precipitation is, the more productive a person becomes. Our definition of productivity says it's a ratio of the amount of work done under particular conditions and the theoretical amount of work under ideal conditions. But here, the ideal conditions are unknown, or more precisely, they don't exist - for every $x_0$ mm of rainfall, we can imagine an environment with $x > x_0$ that is, according to the formula, potentially better, resulting in higher productivity. Hence we cannot say that any certain level of productivity is the maximum possible. Our model for this factor will therefore be an exception being able to return a value of productivity higher than $1$. Nevertheless, it is not a problem at all, it only violates the definition of productivity that is used in other models.
 
-According to the research we base our theory on, the higher precipitation is, the more productive a person becomes. Hence we cannot say, that a certain level of productivity is the maximum possible. Our model for this factor will consequently be the only one, which can return a value of productivity higher than $1$. 
+For the research has been done on a relatively small amount of rain, it only tells us the equation holds for small values of $x$. However, our data show that in certain countries, the precipitation is extremely high. To counteract the bias caused by evaluating the equation in extreme cases when it rains much more, we will substitute $\sqrt[]{x}$ for $x$. This allows us to handle small values of $x$ approximately correctly while nicely coping with extreme scenarios of rain when monsoon type raging storms happen. Further, we introduced a parameter (coefficient) $K$ to change the magnitude of the effect if needed.
 
-Precipitation is a factor, that reflects the entire climate of a certain area. It is highly unlikely, that someone coming from a different climate would get used to it over the course of three days, so this aspect is not considered in our model.
+$$P = \left( 100\% - 1.363\% \right)^{\dfrac{-K \sqrt[]{x}}{25.4} }$$
+
+Precipitation is a factor that reflects the entire climate of a certain area. It is highly unlikely that someone coming from a different climate would get used to it over the course of three days, so this aspect is not considered in our model.
 

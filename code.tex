@@ -1,0 +1,2151 @@
+Listing of the following files:
+
+\noindent\texttt{.gitignore}\\
+\texttt{pom.xml}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/algorithm/Algorithm.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/algorithm/DiscreteAlgorithm.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/api/ApiManager.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/api/BingApi.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/db/CitiesImporter.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/db/DatabaseManager.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/db/PlaceFinder.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/db/QueryCache.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/db/SingleQueryCache.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/AltitudeMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/DaylightMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/DistanceMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/JetLagMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/PollutionMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/PrecipitationMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/ProductivityMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/ProductivityMapsFactory.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/QualityOfLifeMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/map/TemperatureMap.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/model/Attendant.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/model/Parameters.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/model/Place.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/system/Application.java}\\
+\texttt{src/main/java/com/jjurm/projects/mpp/util/Holder.java}\\
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{.gitignore}
+
+\begin{textcode}
+# === Java ===
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+# === Maven ===
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+
+# === Eclipse ===
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
+# Eclipse Core
+.project
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+
+# === Project-related ===
+*ApiKey.txt
+*.csv
+\end{textcode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{pom.xml}
+
+\begin{xmlcode}
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.jjurm.projects</groupId>
+  <artifactId>meeting-point-planner</artifactId>
+  <version>0.1-SNAPSHOT</version>
+
+  <name>meeting-point-planner</name>
+  <url>https://github.com/jjurm/meeting-point-planner</url>
+  <packaging>jar</packaging>
+
+  <properties>
+    <jdk.version>1.8</jdk.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.main.class>com.jjurm.projects.mpp.system.Application</java.main.class>
+  </properties>
+
+  <build>
+    <plugins>
+      <!-- Set a JDK compiler level -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.1</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
+
+      <!-- Configuration of the 'exec' plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <configuration>
+          <mainClass>${java.main.class}</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- https://mvnrepository.com/artifact/junit/junit -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.maps/google-maps-services -->
+    <dependency>
+      <groupId>com.google.maps</groupId>
+      <artifactId>google-maps-services</artifactId>
+      <version>0.1.19</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>6.0.6</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.peertopark.java/geocalc -->
+    <dependency>
+      <groupId>com.peertopark.java</groupId>
+      <artifactId>geocalc</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/net.snaq/dbpool -->
+    <dependency>
+      <groupId>net.snaq</groupId>
+      <artifactId>dbpool</artifactId>
+      <version>7.0.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.4.3</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20160810</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.5</version>
+    </dependency>
+  </dependencies>
+
+</project>\end{xmlcode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/algorithm/Algorithm.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.algorithm;
+
+import java.util.Date;
+import java.util.TreeSet;
+
+import com.jjurm.projects.mpp.map.ProductivityMapsFactory;
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Place;
+
+public abstract class Algorithm {
+
+  protected int resultCount;
+
+  public Algorithm(int resultCount) {
+    this.resultCount = resultCount;
+  }
+
+  public abstract TreeSet<Result> find(Date date, Attendant[] attendants,
+      ProductivityMapsFactory mapsFactory);
+
+  public static class Result {
+
+    public static Object[] tableColumns = {"City", "Productivity"};
+
+    private double productivitySum;
+    private Place destination;
+
+    public Result(double productivitySum, Place destination) {
+      super();
+      this.productivitySum = productivitySum;
+      this.destination = destination;
+    }
+
+    public Object[] getTableRow() {
+      return new Object[] {destination, productivitySum};
+    }
+
+    public double getProductivitySum() {
+      return productivitySum;
+    }
+
+    public Place getDestination() {
+      return destination;
+    }
+
+    @Override
+    public String toString() {
+      return destination + " (" + productivitySum + ")";
+    }
+
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/algorithm/DiscreteAlgorithm.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.algorithm;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.TreeSet;
+import java.util.function.Consumer;
+
+import com.jjurm.projects.mpp.db.DatabaseManager;
+import com.jjurm.projects.mpp.db.PlaceFinder;
+import com.jjurm.projects.mpp.map.ProductivityMap;
+import com.jjurm.projects.mpp.map.ProductivityMapsFactory;
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Place;
+
+public class DiscreteAlgorithm extends Algorithm {
+
+  protected Consumer<Double> progressUpdater;
+
+  public DiscreteAlgorithm(int resultCount, Consumer<Double> progressUpdater) {
+    super(resultCount);
+    this.progressUpdater = progressUpdater;
+  }
+
+  protected void updateProgress(double progress) {
+    if (progressUpdater != null) {
+      progressUpdater.accept(progress);
+    }
+  }
+
+  @Override
+  public TreeSet<Algorithm.Result> find(Date date, Attendant[] attendants,
+      ProductivityMapsFactory mapsFactory) {
+
+    updateProgress(0);
+
+    ProductivityMap[][] maps = new ProductivityMap[attendants.length][];
+
+    for (int i = 0; i < attendants.length; i++) {
+      maps[i] = mapsFactory.produce(date, attendants[i]);
+    }
+
+    TreeSet<Algorithm.Result> results =
+        new TreeSet<Algorithm.Result>(new Comparator<Algorithm.Result>() {
+          @Override
+          public int compare(Result o1, Result o2) {
+            if (o2.getProductivitySum() == o1.getProductivitySum())
+              return o1.getDestination().getId() - o2.getDestination().getId();
+            else
+              return o1.getProductivitySum() < o2.getProductivitySum() ? 1 : -1;
+          }
+        });
+
+    String query = PlaceFinder.QUERY_BASE;
+    int rowCount, row = 0;
+    try (Connection conn = DatabaseManager.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet result = stmt.executeQuery(query);) {
+
+      result.last();
+      rowCount = result.getRow();
+      result.beforeFirst();
+
+      double sum, productivity;
+
+      while (result.next()) {
+        Place destination = PlaceFinder.fromResultSet(result);
+
+        sum = 0;
+        for (int day = 1; day <= 3; day++) {
+          for (int attendant = 0; attendant < attendants.length; attendant++) {
+            productivity = 1;
+            for (int map = 0; map < maps[attendant].length; map++) {
+              productivity *= maps[attendant][map].calculateProductivity(destination, day);
+            }
+            sum += productivity;
+          }
+        }
+
+        // System.out.println(destination + " " + sum);
+        Algorithm.Result r = new Algorithm.Result(sum, destination);
+        if (results.size() < resultCount) {
+          results.add(r);
+        } else if (sum > results.last().getProductivitySum()) {
+          results.pollLast();
+          results.add(r);
+        }
+
+        row++;
+        updateProgress(((double) row) / rowCount);
+
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return results;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/api/ApiManager.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.api;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+
+import com.google.maps.GeoApiContext;
+
+public class ApiManager {
+
+  static GeoApiContext context = null;
+
+  public static GeoApiContext getContext() {
+    if (context == null) {
+      try (BufferedReader br = new BufferedReader(new FileReader("ApiKey.txt"))) {
+        String line = br.readLine();
+        context = new GeoApiContext().setApiKey(line);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    return context;
+  }
+
+  static String bingApiKey = null;
+
+  public static String getBingApiKey() {
+    if (bingApiKey == null) {
+      try {
+        bingApiKey = FileUtils.readFileToString(new File("BingApiKey.txt"), "UTF-8");
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    return bingApiKey;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/api/BingApi.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.api;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class BingApi {
+
+  private static final String ALPHABET =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+
+  private static final String BASE_URL =
+      "http://dev.virtualearth.net/REST/v1/Elevation/List?key=" + ApiManager.getBingApiKey();
+
+  public static int[] fetchElevation(double[][] points, int count) {
+    // String url = BASE_URL + "&points=" + compressPoints(points, count);
+    String url = BASE_URL + "&points=" + concatenatePoints(points, count);
+    int[] result = new int[count];
+    try {
+      JSONObject json = readJsonFromUrl(url);
+      JSONArray elevations = json.getJSONArray("resourceSets").getJSONObject(0)
+          .getJSONArray("resources").getJSONObject(0).getJSONArray("elevations");
+      for (int i = 0; i < count; i++) {
+        result[i] = elevations.getInt(i);
+      }
+      return result;
+    } catch (JSONException | IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    InputStream is = new URL(url).openStream();
+    try {
+      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+      String jsonText = readAll(rd);
+      JSONObject json = new JSONObject(jsonText);
+      return json;
+    } finally {
+      is.close();
+    }
+  }
+
+  private static String readAll(Reader rd) throws IOException {
+    StringBuilder sb = new StringBuilder();
+    int cp;
+    while ((cp = rd.read()) != -1) {
+      sb.append((char) cp);
+    }
+    return sb.toString();
+  }
+
+  public static String concatenatePoints(double[][] points, int count) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < count; i++) {
+      sb.append(points[i][0] + "," + points[i][1]);
+      if (i + 1 < count) {
+        sb.append(",");
+      }
+    }
+    return sb.toString();
+  }
+
+  public static String compressPoints(double[][] points, int count) {
+    int latitude = 0, longitude = 0, dx, dy, newLatitude, newLongitude, index, rem;
+    StringBuilder sb = new StringBuilder();
+    // double l;
+
+    for (int point = 0; point < count; point++) {
+
+      // step 2
+      newLatitude = (int) Math.round(points[point][0] * 100000);
+      newLongitude = (int) Math.round(points[point][1] * 100000);
+
+      // step 3
+      dy = newLatitude - latitude;
+      dx = newLongitude - longitude;
+      latitude = newLatitude;
+      longitude = newLongitude;
+
+      // step 4 and 5
+      dy = (dy << 1) ^ (dy >> 31);
+      dx = (dx << 1) ^ (dx >> 31);
+
+      // step 6
+      index = ((dy + dx) * (dy + dx + 1) / 2) + dy;
+
+      while (index > 0) {
+
+        // step 7
+        rem = index & 31;
+        index = (index - rem) / 32;
+
+        // step 8
+        if (index > 0)
+          rem += 32;
+
+        // step 9
+        sb.append(ALPHABET.charAt(rem));
+      }
+    }
+
+    // step 10
+    return sb.toString();
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/db/CitiesImporter.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.db;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.TimeZone;
+
+import org.apache.ibatis.jdbc.ScriptRunner;
+
+import com.google.maps.ElevationApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.TimeZoneApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.errors.ZeroResultsException;
+import com.google.maps.model.ElevationResult;
+import com.google.maps.model.LatLng;
+import com.jjurm.projects.mpp.api.ApiManager;
+import com.jjurm.projects.mpp.api.BingApi;
+
+public class CitiesImporter {
+
+  static String filename = "cities.csv";
+  static int ignoreLines = 1;
+
+  public static void run() {
+    DatabaseManager.init();
+    // importCities();
+    // fetchTimezones();
+    fetchElevations();
+    DatabaseManager.release();
+  }
+
+  public static void importCities() {
+
+    String insert2Statement =
+        "INSERT INTO `bigcities`(`country`, `city`, `accent`, `region`, `population`, `lat`, `lon`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    try (BufferedReader brCsv = new BufferedReader(new FileReader(filename));
+        BufferedReader brCitiesSql = new BufferedReader(new FileReader("sql/cities.sql"));
+        Connection conn = DatabaseManager.getConnection();) {
+
+      ScriptRunner sr = new ScriptRunner(conn);
+      sr.runScript(brCitiesSql);
+
+      conn.setAutoCommit(false);
+
+      try (PreparedStatement stmt2 = conn.prepareStatement(insert2Statement)) {
+
+        for (int i = 0; i < ignoreLines; i++) {
+          brCsv.readLine();
+        }
+        String line;
+        String[] parts;
+        Integer population;
+        while ((line = brCsv.readLine()) != null) {
+          parts = line.split(",");
+
+          if (parts[4].length() > 0) {
+            population = Integer.parseInt(parts[4]);
+          } else {
+            population = null;
+          }
+
+          if (population != null && population > 50000) {
+            stmt2.setString(1, parts[0]);
+            stmt2.setString(2, parts[1]);
+            stmt2.setString(3, parts[2]);
+            stmt2.setString(4, parts[3]);
+            stmt2.setInt(5, population);
+            stmt2.setDouble(6, Double.parseDouble(parts[5]));
+            stmt2.setDouble(7, Double.parseDouble(parts[6]));
+            stmt2.executeUpdate();
+          }
+        }
+        conn.commit();
+
+      }
+
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void fetchTimezones() {
+    try (Connection conn = DatabaseManager.getConnection()) {
+      conn.setAutoCommit(false);
+
+      try (
+          PreparedStatement stmtSelect =
+              conn.prepareStatement("SELECT id, lat, lon FROM bigcities");
+          PreparedStatement stmtUpdate =
+              conn.prepareStatement("UPDATE bigcities SET tz_id = ?, alt = ? WHERE id = ?");
+          ResultSet result = stmtSelect.executeQuery()) {
+
+        ApiFunctionProcessor<TimeZone> pTimeZone = new ApiFunctionProcessor<>(
+            TimeZoneApi::getTimeZone, tz -> stmtUpdate.setString(1, tz.getID()),
+            () -> stmtUpdate.setNull(1, Types.VARCHAR));
+        ApiFunctionProcessor<ElevationResult> pElevation =
+            new ApiFunctionProcessor<ElevationResult>(ElevationApi::getByPoint,
+                er -> stmtUpdate.setDouble(2, er.elevation),
+                () -> stmtUpdate.setNull(1, Types.DOUBLE));
+
+        int i = 0;
+        while (result.next()) {
+          if (i % 100 == 0) {
+            conn.commit();
+            System.out.println(i);
+          }
+          LatLng point = new LatLng(result.getDouble("lat"), result.getDouble("lon"));
+          stmtUpdate.setInt(3, result.getInt("id"));
+          pTimeZone.process(point);
+          pElevation.process(point);
+          stmtUpdate.executeUpdate();
+          i++;
+        }
+
+        conn.commit();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (ApiException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  public static void fetchElevations() {
+    try (Connection conn = DatabaseManager.getConnection()) {
+      conn.setAutoCommit(false);
+
+      try (
+          PreparedStatement stmtSelect =
+              conn.prepareStatement("SELECT id, lat, lon FROM bigcities");
+          PreparedStatement stmtUpdate =
+              conn.prepareStatement("UPDATE bigcities SET alt = ? WHERE id = ?");
+          ResultSet result = stmtSelect.executeQuery()) {
+
+        int i = 0;
+        int count = 0;
+        int[] ids = new int[100];
+        double[][] points = new double[100][2];
+        while (result.next() && i < 150) {
+          if (count == 40) {
+            int[] elevations = BingApi.fetchElevation(points, count);
+            for (int j = 0; j < count; j++) {
+              stmtUpdate.setInt(2, ids[j]);
+              stmtUpdate.setInt(1, elevations[j]);
+              stmtUpdate.executeUpdate();
+            }
+            count = 0;
+
+            conn.commit();
+            System.out.println(i);
+          }
+          ids[count] = result.getInt(1);
+          points[count][0] = result.getDouble(2);
+          points[count][1] = result.getDouble(3);
+          i++;
+          count++;
+        }
+
+        int[] elevations = BingApi.fetchElevation(points, count);
+        for (int j = 0; j < count; j++) {
+          stmtUpdate.setInt(2, ids[0]);
+          stmtUpdate.setInt(1, elevations[j]);
+          stmtUpdate.executeUpdate();
+        }
+
+        conn.commit();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  private static class ApiFunctionProcessor<T> {
+
+    private ApiFunction<T> function;
+    private ResultConsumer<T> onSuccess;
+    private NoResultAction action;
+
+    public ApiFunctionProcessor(ApiFunction<T> function, ResultConsumer<T> onSuccess,
+        NoResultAction action) {
+      this.function = function;
+      this.onSuccess = onSuccess;
+      this.action = action;
+    }
+
+    public void process(LatLng point)
+        throws ApiException, InterruptedException, IOException, SQLException {
+      PendingResult<T> result = function.query(ApiManager.getContext(), point);
+      try {
+        T r = result.await();
+        onSuccess.accept(r);
+      } catch (ZeroResultsException e) {
+        action.run();
+      }
+    }
+
+    private static interface ApiFunction<T> {
+      public PendingResult<T> query(GeoApiContext context, LatLng point);
+    }
+
+    private static interface ResultConsumer<T> {
+      public void accept(T r) throws SQLException;
+    }
+
+    private static interface NoResultAction {
+      public void run() throws SQLException;
+    }
+
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/db/DatabaseManager.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.db;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import snaq.db.ConnectionPool;
+
+public class DatabaseManager {
+
+  private static final String URL =
+      "jdbc:mysql://localhost/immc?user=root&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+
+  private static ConnectionPool pool;
+
+  public static void init() {
+    pool = new ConnectionPool("pool", 1, 3, 3, 0, URL, null);
+  }
+
+  public static void release() {
+    pool.release();
+  }
+
+  public static Connection getConnection() throws SQLException {
+    return pool.getConnection();
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/db/PlaceFinder.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.db;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.TimeZone;
+
+import com.jjurm.projects.mpp.map.PollutionMap;
+import com.jjurm.projects.mpp.map.QualityOfLifeMap;
+import com.jjurm.projects.mpp.model.Place;
+import com.peertopark.java.geocalc.DegreeCoordinate;
+import com.peertopark.java.geocalc.Point;
+
+public class PlaceFinder {
+
+  public static final String QUERY_BASE =
+      "SELECT bigcities.id as id, bigcities.country as country, accent, population, lat, lon, tz_id, alt, countries.name, temperature.*, precipitation.*, pollution.pollution as pollution, qol.qol as qol "
+          + "FROM bigcities LEFT JOIN countries ON (UPPER(bigcities.country) = countries.alpha2) "
+          + "LEFT JOIN temperature ON (countries.alpha3 = temperature.country) LEFT JOIN precipitation ON (countries.alpha3 = precipitation.country) LEFT JOIN pollution ON (countries.name = pollution.country) LEFT JOIN qol ON (countries.name = qol.country) "
+          + "WHERE tz_id is not null and bigcities.ign = 0";
+
+  public static Place id(int id) throws NotFoundException, SQLException {
+    return query("id = " + id);
+  }
+
+  public static Place city(String city) throws NotFoundException, SQLException {
+    return query("city like '%" + city + "%'");
+  }
+
+  public static Place accent(String accent) throws NotFoundException, SQLException {
+    return query("accent like '%" + accent + "%'");
+  }
+
+  public static Place fromResultSet(ResultSet result) throws SQLException {
+    int id = result.getInt("id");
+    String name = result.getString("accent");
+    String country_name = result.getString("countries.name");
+    Point point = new Point(new DegreeCoordinate(result.getDouble("lat")),
+        new DegreeCoordinate(result.getDouble("lon")));
+    int population = result.getInt("population");
+    TimeZone timezone = TimeZone.getTimeZone(result.getString("tz_id"));
+    int altitude = result.getInt("alt");
+
+    double[] temperature = new double[13];
+    temperature[0] = result.getDouble("tjan");
+    temperature[1] = result.getDouble("tfeb");
+    temperature[2] = result.getDouble("tmar");
+    temperature[3] = result.getDouble("tapr");
+    temperature[4] = result.getDouble("tmay");
+    temperature[5] = result.getDouble("tjun");
+    temperature[6] = result.getDouble("tjul");
+    temperature[7] = result.getDouble("taug");
+    temperature[8] = result.getDouble("tsep");
+    temperature[9] = result.getDouble("toct");
+    temperature[10] = result.getDouble("tnov");
+    temperature[11] = result.getDouble("tdec");
+    temperature[12] = result.getDouble("tannual");
+    double[] precipitation = new double[13];
+    precipitation[0] = result.getDouble("pjan");
+    precipitation[1] = result.getDouble("pfeb");
+    precipitation[2] = result.getDouble("pmar");
+    precipitation[3] = result.getDouble("papr");
+    precipitation[4] = result.getDouble("pmay");
+    precipitation[5] = result.getDouble("pjun");
+    precipitation[6] = result.getDouble("pjul");
+    precipitation[7] = result.getDouble("paug");
+    precipitation[8] = result.getDouble("psep");
+    precipitation[9] = result.getDouble("poct");
+    precipitation[10] = result.getDouble("pnov");
+    precipitation[11] = result.getDouble("pdec");
+    precipitation[12] = result.getDouble("pannual");
+    double pollution = result.getDouble("pollution");
+    if (result.wasNull()) {
+      pollution = PollutionMap.getMeanPollution();
+    }
+    double qol = result.getDouble("qol");
+    if (result.wasNull()) {
+      qol = QualityOfLifeMap.getMeanQOL();
+    }
+
+    Place place = new Place(id, name, country_name, point, population, timezone, altitude,
+        temperature, precipitation, pollution, qol);
+    return place;
+  }
+
+  protected static Place query(String condition) throws NotFoundException, SQLException {
+    String query = QUERY_BASE + " AND " + condition + " ORDER BY population DESC LIMIT 1";
+    try (Connection conn = DatabaseManager.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet result = stmt.executeQuery(query)) {
+      if (result.first()) {
+        return fromResultSet(result);
+      } else {
+        throw new NotFoundException("Place not found (" + condition + ")");
+      }
+    }
+  }
+
+  public static class NotFoundException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public NotFoundException(String s) {
+      super(s);
+    }
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/db/QueryCache.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.db;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+
+public class QueryCache<K, V> {
+
+  private QueryBuilder<K> queryBuilder;
+  private ResultExtractor<V> resultExtractor;
+
+  private HashMap<K, V> cache = new HashMap<K, V>();
+
+  public QueryCache(QueryBuilder<K> queryBuilder, ResultExtractor<V> resultExtractor) {
+    this.queryBuilder = queryBuilder;
+    this.resultExtractor = resultExtractor;
+  }
+
+  public V getValue(K key) {
+
+    if (cache.containsKey(key)) {
+      return cache.get(key);
+    }
+
+    String query = queryBuilder.buildFrom(key);
+    try (Connection conn = DatabaseManager.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet result = stmt.executeQuery(query);) {
+      if (result.first()) {
+        V value = resultExtractor.getFrom(result);
+        cache.put(key, value);
+        return value;
+      } else {
+        return null;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static interface QueryBuilder<K> {
+    public String buildFrom(K key);
+  }
+
+  public static interface ResultExtractor<V> {
+    public V getFrom(ResultSet result) throws SQLException;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/db/SingleQueryCache.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.db;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SingleQueryCache<V> {
+
+  private String query;
+  private ResultExtractor<V> resultExtractor;
+
+  private V result = null;
+
+  public SingleQueryCache(String query, ResultExtractor<V> resultExtractor) {
+    this.query = query;
+    this.resultExtractor = resultExtractor;
+  }
+
+  public V getValue() {
+
+    if (result != null) {
+      return result;
+    }
+
+    try (Connection conn = DatabaseManager.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet resultSet = stmt.executeQuery(query);) {
+      if (resultSet.first()) {
+        V value = resultExtractor.getFrom(resultSet);
+        result = value;
+        return value;
+      } else {
+        return null;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public static interface ResultExtractor<V> {
+    public V getFrom(ResultSet result) throws SQLException;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/AltitudeMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Date;
+
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+public class AltitudeMap extends ProductivityMap {
+
+  public static final double T0 = 288.15;
+  public static final double L = 0.0065;
+  public static final double p0 = 101325;
+  public static final double g = 9.80665;
+  public static final double M = 0.0289644;
+  public static final double R = 8.31447;
+
+  public static final double a = 3.995;
+  public static final double b = 0.7576;
+  public static final double c = 14.05537;
+
+  public AltitudeMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    int h = destination.getAltitude();
+
+    double g0 = Math.log(M * p0 / (R * T0) - b) / Math.log(a) + c;
+    double gh =
+        Math.log((M * p0 * Math.pow(1 - L * h / T0, g * M / (R * L))) / (R * (T0 - L * h)) - b)
+            / Math.log(a) + c;
+
+    return gh / g0;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/DaylightMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import com.jjurm.projects.mpp.db.QueryCache;
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+public class DaylightMap extends ProductivityMap {
+
+  public static final double D = 100.0 / 121.0;
+
+  public static final String PARAM_WH = "WH";
+
+  public static QueryCache<Integer, Double> cache = new QueryCache<Integer, Double>(
+      day -> "SELECT declination FROM sundeclination WHERE `day` = " + day, rs -> rs.getDouble(1));
+
+  public DaylightMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    double phi = destination.getPoint().getLatitude() * Math.PI / 180;
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    int dayOfYear = (calendar.get(Calendar.DAY_OF_YEAR) + day) % 366;
+    double declination = cache.getValue(dayOfYear) * Math.PI / 180;
+
+    double h = Math.acos(-Math.tan(phi) * Math.tan(declination)) / (2 * Math.PI);
+    double sunrise = 24 * -h + 12;
+    double sunset = 24 * h + 12;
+
+    double wh = parameters.get(PARAM_WH);
+    double RL = Math.max(0, -sunset + sunrise + wh) / wh;
+
+    double P = RL * D + (1 - RL);
+    return P;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/DistanceMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Date;
+
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+import com.peertopark.java.geocalc.EarthCalc;
+
+public class DistanceMap extends ProductivityMap {
+
+  public static final double AGE_YOUNG = 18;
+  public static final double AGE_ELDERLY = 80;
+  public static final double MAX_DISTANCE = 20_000_000;
+
+  public static final String PARAM_PY = "P_Y (" + ((int) AGE_YOUNG) + ")";
+  public static final String PARAM_PE = "P_E (" + ((int) AGE_ELDERLY) + ")";
+  public static final String PARAM_PP = "P_P";
+
+  private double PM;
+
+  public DistanceMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+    double PY = parameters.get(PARAM_PY);
+    double PE = parameters.get(PARAM_PE);
+    PM = PY - (attendant.getAge() - AGE_YOUNG) / (AGE_ELDERLY - AGE_YOUNG) * (PY - PE);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    if (day > 1)
+      return 1;
+
+    double distance =
+        EarthCalc.getHarvesineDistance(attendant.getOrigin().getPoint(), destination.getPoint());
+
+    double popAddition =
+        parameters.get(PARAM_PP) * Math.sqrt(destination.getPopulation()) / 1000000;
+
+    double P = Math.exp(distance * Math.log(PM) / MAX_DISTANCE) + popAddition;
+    return P;
+  }
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/JetLagMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Date;
+
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+public class JetLagMap extends ProductivityMap {
+
+  public static final String PARAM_PM = "P_M";
+
+  public static final double LE = 0.7;
+  public static final double LW = 0.7;
+
+  public JetLagMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    double pm = parameters.get(PARAM_PM);
+
+    double pw = pm * Math.sqrt(LE / LW);
+    double pe = pm * Math.sqrt(LW / LE);
+
+    int offset1 = attendant.getOrigin().getTimeZone().getOffset(date.getTime());
+    int offset2 = destination.getTimeZone().getOffset(date.getTime());
+    double hourDiff = (offset2 - offset1) / 3600000;
+
+    boolean toEast = hourDiff >= 0;
+    hourDiff = Math.abs(hourDiff);
+
+    double dayCoefficient1 = toEast ? 2 : 2.5;
+    double p1 = toEast ? pe : pw;
+    double productivity1 =
+        1 - Math.pow(Math.max(0, hourDiff - dayCoefficient1 * (day - 1)) / 12, 2) * (1 - p1);
+
+    double dayCoefficient2 = !toEast ? 2 : 2.5;
+    double p2 = !toEast ? pe : pw;
+    double productivity2 =
+        1 - Math.pow(Math.max(0, hourDiff - dayCoefficient2 * (day - 1)) / 12, 2) * (1 - p2);
+
+    return Math.max(productivity1, productivity2);
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/PollutionMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Date;
+
+import com.jjurm.projects.mpp.db.SingleQueryCache;
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+public class PollutionMap extends ProductivityMap {
+
+  public static final String PARAM_P_MIN = "P_MIN";
+
+  public PollutionMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    double x = destination.getPollution();
+
+    double P = Math.pow(parameters.get(PARAM_P_MIN), (100 - x) / 100);
+    return P;
+  }
+
+  private static SingleQueryCache<Double> cache =
+      new SingleQueryCache<>("SELECT AVG(pollution) as avg FROM pollution", r -> r.getDouble(1));
+
+  public static double getMeanPollution() {
+    return cache.getValue();
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/PrecipitationMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+public class PrecipitationMap extends ProductivityMap {
+
+  public static final String PARAM_K = "K";
+
+  public static final double P_DECREASE = 0.01363;
+
+  public PrecipitationMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    calendar.add(Calendar.DATE, day);
+    int month = calendar.get(Calendar.MONTH);
+
+    double x = destination.getPrecipitation(month);
+    double K = parameters.get(PARAM_K);
+
+    double P = Math.pow(1 - P_DECREASE, -K * Math.sqrt(x) / 25.4);
+    return P;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/ProductivityMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Date;
+
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+/**
+ * This abstract class represents a function that basically takes coordinates as an argument and
+ * returns the adjusted productivity of an attendant after travelling to the specified location,
+ * considering the factor mapped by a particular implementation.
+ * 
+ * @author JJurM
+ */
+public abstract class ProductivityMap {
+
+  protected ParametersList parameters;
+  protected Date date;
+  protected Attendant attendant;
+
+  public ProductivityMap(ParametersList parameters, Date date, Attendant attendant) {
+    this.parameters = parameters;
+    this.date = date;
+    this.attendant = attendant;
+  }
+
+  /**
+   * Returns productivity given a specified destination and a day. The 0-th day is the day of
+   * arrival and the meeting days are from 1 to 3 (inclusive).
+   */
+  public abstract double calculateProductivity(Place destination, int day);
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/ProductivityMapsFactory.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+
+public class ProductivityMapsFactory {
+
+  private static HashMap<Class<? extends ProductivityMap>, Factory> allFactories =
+      new HashMap<Class<? extends ProductivityMap>, Factory>() {
+        private static final long serialVersionUID = 1L;
+        {
+          put(AltitudeMap.class, AltitudeMap::new);
+          put(DaylightMap.class, DaylightMap::new);
+          put(DistanceMap.class, DistanceMap::new);
+          put(JetLagMap.class, JetLagMap::new);
+          put(PollutionMap.class, PollutionMap::new);
+          put(PrecipitationMap.class, PrecipitationMap::new);
+          put(QualityOfLifeMap.class, QualityOfLifeMap::new);
+          put(TemperatureMap.class, TemperatureMap::new);
+        }
+      };
+
+
+  List<Class<? extends ProductivityMap>> classes =
+      new ArrayList<Class<? extends ProductivityMap>>();
+  Parameters parameters;
+
+  public ProductivityMapsFactory(Parameters parameters) {
+    this.parameters = parameters;
+  }
+
+  public void addFactory(Class<? extends ProductivityMap> clazz) {
+    classes.add(clazz);
+  }
+
+  public ProductivityMap[] produce(Date date, Attendant attendant) {
+    ProductivityMap[] maps = new ProductivityMap[classes.size()];
+    int i = 0;
+    for (Class<? extends ProductivityMap> clazz : classes) {
+      ParametersList list = parameters.getParametersList(clazz);
+      maps[i] = allFactories.get(clazz).construct(list, date, attendant);
+      i++;
+    }
+    return maps;
+  }
+
+  static interface Factory {
+
+    public ProductivityMap construct(ParametersList parameters, Date date, Attendant attendant);
+
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/QualityOfLifeMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Date;
+
+import com.jjurm.projects.mpp.db.SingleQueryCache;
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+public class QualityOfLifeMap extends ProductivityMap {
+
+  public static final String PARAM_P_MIN = "P_MIN";
+
+  public QualityOfLifeMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    double qol = destination.getQualityOfLife();
+    double max = cacheMax.getValue();
+
+    double P = Math.pow(parameters.get(PARAM_P_MIN), (max - qol) / max);
+    return P;
+  }
+
+  private static SingleQueryCache<Double> cache =
+      new SingleQueryCache<>("SELECT AVG(qol) as avg FROM qol", r -> r.getDouble(1));
+
+  private static SingleQueryCache<Double> cacheMax =
+      new SingleQueryCache<>("SELECT MAX(qol) FROM qol", r -> r.getDouble(1));
+
+  public static double getMeanQOL() {
+    return cache.getValue();
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/map/TemperatureMap.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.map;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+
+public class TemperatureMap extends ProductivityMap {
+
+  public static final String PARAM_KT = "KT";
+
+  public static final double c1 = -42.379;
+  public static final double c2 = 2.04901523;
+  public static final double c3 = 10.14333127;
+  public static final double c4 = -0.22475541;
+  public static final double c5 = -0.683783 * Math.pow(10, -3);
+  public static final double c6 = -5.481717 * Math.pow(10, -2);
+  public static final double c7 = 1.22874 * Math.pow(10, -3);
+  public static final double c8 = 8.5280 * Math.pow(10, -4);
+  public static final double c9 = -1.99 * Math.pow(10, -6);
+
+  public TemperatureMap(ParametersList parameters, Date date, Attendant attendant) {
+    super(parameters, date, attendant);
+  }
+
+  @Override
+  public double calculateProductivity(Place destination, int day) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    calendar.add(Calendar.DATE, day);
+    int month = calendar.get(Calendar.MONTH);
+
+    // dry-bulb temperature
+    double tC = destination.getTemperature(month);
+    // double tF = celsiusToFahrenheit(tC);
+
+    double P = productivityInTemperature(tC);
+
+    return P;
+  }
+
+  public double productivityInTemperature(double t) {
+    return ((-1.06907 * Math.pow(10, -7) * Math.pow(t, 4) + 0.00003 * Math.pow(t, 3)
+        - 0.00344 * Math.pow(t, 2) + 0.11109 * t - 0.08269) - 1) * parameters.get(PARAM_KT) + 1;
+  }
+
+  public static double celsiusToFahrenheit(double v) {
+    return v * 9 / 5 + 32;
+  }
+
+  public static double fahrenheitToCelsius(double v) {
+    return (v - 32) * 5 / 9;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/model/Attendant.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.model;
+
+/**
+ * A class representing a person going to participate in the meeting.
+ * 
+ * @author JJurM
+ */
+public class Attendant {
+
+  private Place origin;
+  private double age;
+
+  public Attendant(Place origin, double age) {
+    this.origin = origin;
+    this.age = age;
+  }
+
+  public Place getOrigin() {
+    return origin;
+  }
+
+  public double getAge() {
+    return age;
+  }
+
+  @Override
+  public String toString() {
+    return origin + " (age " + ((int) age) + ")";
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/model/Parameters.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.model;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
+
+import com.jjurm.projects.mpp.map.AltitudeMap;
+import com.jjurm.projects.mpp.map.DaylightMap;
+import com.jjurm.projects.mpp.map.DistanceMap;
+import com.jjurm.projects.mpp.map.JetLagMap;
+import com.jjurm.projects.mpp.map.PollutionMap;
+import com.jjurm.projects.mpp.map.PrecipitationMap;
+import com.jjurm.projects.mpp.map.ProductivityMap;
+import com.jjurm.projects.mpp.map.QualityOfLifeMap;
+import com.jjurm.projects.mpp.map.TemperatureMap;
+import com.jjurm.projects.mpp.util.Holder;
+
+public class Parameters {
+
+  LinkedHashMap<Class<? extends ProductivityMap>, ParametersList> lists = new LinkedHashMap<>();
+
+  public Parameters() {
+    lists.put(JetLagMap.class, new ParametersList(true, p -> {
+      p.put(JetLagMap.PARAM_PM, h(0.7));
+    }));
+    lists.put(DistanceMap.class, new ParametersList(true, p -> {
+      p.put(DistanceMap.PARAM_PY, h(0.9));
+      p.put(DistanceMap.PARAM_PE, h(0.7));
+      p.put(DistanceMap.PARAM_PP, h(0.3));
+    }));
+    lists.put(AltitudeMap.class, new ParametersList(true, p -> {
+    }));
+    lists.put(DaylightMap.class, new ParametersList(true, p -> {
+      p.put(DaylightMap.PARAM_WH, h(8));
+    }));
+    lists.put(TemperatureMap.class, new ParametersList(true, p -> {
+      p.put(TemperatureMap.PARAM_KT, h(0.05));
+    }));
+    lists.put(PollutionMap.class, new ParametersList(true, p -> {
+      p.put(PollutionMap.PARAM_P_MIN, h(0.96));
+    }));
+    lists.put(QualityOfLifeMap.class, new ParametersList(true, p -> {
+      p.put(QualityOfLifeMap.PARAM_P_MIN, h(0.92));
+    }));
+    lists.put(PrecipitationMap.class, new ParametersList(true, p -> {
+      p.put(PrecipitationMap.PARAM_K, h(0.5));
+    }));
+  }
+
+  private static Holder<Double> h(double value) {
+    return new Holder<Double>(value);
+  }
+
+  public Set<Map.Entry<Class<? extends ProductivityMap>, ParametersList>> entrySet() {
+    return lists.entrySet();
+  }
+
+  public ParametersList getParametersList(Class<? extends ProductivityMap> clazz) {
+    return lists.get(clazz);
+  }
+
+  public static class ParametersList {
+
+    private boolean useThisMap;
+    private LinkedHashMap<String, Holder<Double>> parameters;
+
+    public ParametersList(boolean useThisMap,
+        Consumer<LinkedHashMap<String, Holder<Double>>> paramSetter) {
+      this.useThisMap = useThisMap;
+      this.parameters = new LinkedHashMap<String, Holder<Double>>();
+      paramSetter.accept(this.parameters);
+    }
+
+    public void setUseThisMap(boolean value) {
+      this.useThisMap = value;
+    }
+
+    public boolean getUseThisMap() {
+      return useThisMap;
+    }
+
+    public Set<Map.Entry<String, Holder<Double>>> entrySet() {
+      return parameters.entrySet();
+    }
+
+    public Double get(String key) {
+      return parameters.get(key).get();
+    }
+
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/model/Place.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.model;
+
+import java.util.TimeZone;
+
+import com.peertopark.java.geocalc.Point;
+
+public class Place {
+
+  int id;
+  private String name;
+  private String country;
+  private Point point;
+  private int population;
+  private TimeZone timeZone;
+  private int altitude;
+  private double[] temperature;
+  private double[] precipitation;
+  private double pollution;
+  private double qol;
+
+  public Place(int id, String name, String country, Point point, int population, TimeZone timeZone,
+      int altitude, double[] temperature, double[] precipitation, double pollution, double qol) {
+    this.id = id;
+    this.name = name;
+    this.country = country;
+    this.point = point;
+    this.population = population;
+    this.timeZone = timeZone;
+    this.altitude = altitude;
+    this.temperature = temperature;
+    this.precipitation = precipitation;
+    this.pollution = pollution;
+    this.qol = qol;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public Point getPoint() {
+    return point;
+  }
+
+  public int getPopulation() {
+    return population;
+  }
+
+  public TimeZone getTimeZone() {
+    return timeZone;
+  }
+
+  public int getAltitude() {
+    return altitude;
+  }
+
+  public double getTemperature(int month) {
+    return temperature[month];
+  }
+
+  public double getPrecipitation(int month) {
+    return precipitation[month];
+  }
+
+  public double getPollution() {
+    return pollution;
+  }
+
+  public double getQualityOfLife() {
+    return qol;
+  }
+
+  @Override
+  public String toString() {
+    return name + ", " + country;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || !(obj instanceof Place))
+      return false;
+    Place p = (Place) obj;
+    return id == p.id;
+  }
+
+  @Override
+  public int hashCode() {
+    return id;
+  }
+
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/system/Application.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.system;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Map;
+import java.util.TreeSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.jjurm.projects.mpp.algorithm.Algorithm;
+import com.jjurm.projects.mpp.algorithm.Algorithm.Result;
+import com.jjurm.projects.mpp.algorithm.DiscreteAlgorithm;
+import com.jjurm.projects.mpp.db.DatabaseManager;
+import com.jjurm.projects.mpp.db.PlaceFinder;
+import com.jjurm.projects.mpp.db.PlaceFinder.NotFoundException;
+import com.jjurm.projects.mpp.map.ProductivityMap;
+import com.jjurm.projects.mpp.map.ProductivityMapsFactory;
+import com.jjurm.projects.mpp.model.Attendant;
+import com.jjurm.projects.mpp.model.Parameters;
+import com.jjurm.projects.mpp.model.Parameters.ParametersList;
+import com.jjurm.projects.mpp.model.Place;
+import com.jjurm.projects.mpp.util.Holder;
+
+public class Application {
+
+  ExecutorService executor = Executors.newSingleThreadExecutor();
+
+  DefaultListModel<Attendant> attendants = new DefaultListModel<Attendant>();
+  DefaultTableModel results = new DefaultTableModel(Result.tableColumns, 0);
+  Algorithm algorithm;
+  Parameters parameters;
+  ArrayList<Pair<JTextField, Holder<Double>>> parameterBindings = new ArrayList<>();
+
+  private JFrame frame;
+  private JTextField textDate;
+  private JTextField textOrigin;
+  private JTextField textAge;
+  private JTable tableResults;
+  private JProgressBar progressBar;
+
+  /**
+   * Launch the application.
+   */
+  public static void main(String[] args) {
+    DatabaseManager.init();
+
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          Application window = new Application();
+          window.frame.setTitle("Meeting point planner");
+          window.frame.setVisible(true);
+          window.textOrigin.requestFocus();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+
+  /**
+   * Create the application.
+   */
+  public Application() {
+    initialize();
+  }
+
+  /**
+   * Initialize the contents of the frame.
+   */
+  private void initialize() {
+    frame = new JFrame();
+    frame.setBounds(100, 100, 940, 550);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    JPanel panelMain = new JPanel();
+    frame.getContentPane().add(panelMain, BorderLayout.CENTER);
+    panelMain.setLayout(null);
+
+    JPanel panelInput = new JPanel();
+    panelInput.setBounds(10, 11, 309, 489);
+    panelInput.setBorder(BorderFactory.createTitledBorder("Input"));
+    panelMain.add(panelInput);
+    panelInput.setLayout(null);
+
+    JLabel lblDate = new JLabel("Date (YYYYMMDD):");
+    lblDate.setBounds(10, 21, 94, 14);
+    panelInput.add(lblDate);
+
+    textDate = new JTextField();
+    textDate.setText("20170815");
+    textDate.setBounds(114, 18, 78, 20);
+    panelInput.add(textDate);
+    textDate.setColumns(10);
+
+    JLabel lblAttendants = new JLabel("Attendants:");
+    lblAttendants.setBounds(10, 46, 78, 14);
+    panelInput.add(lblAttendants);
+
+    JList<Attendant> list = new JList<Attendant>();
+    list.setModel(attendants);
+    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+    JScrollPane scrollAttendants = new JScrollPane(list);
+    scrollAttendants.setBounds(10, 71, 289, 249);
+    panelInput.add(scrollAttendants);
+
+    JLabel lblOrigin = new JLabel("Origin:");
+    lblOrigin.setBounds(10, 331, 46, 14);
+    panelInput.add(lblOrigin);
+
+    textOrigin = new JTextField();
+    textOrigin.setBounds(66, 328, 114, 20);
+    panelInput.add(textOrigin);
+    textOrigin.setColumns(10);
+
+    JLabel lblAge = new JLabel("Age:");
+    lblAge.setBounds(10, 356, 46, 14);
+    panelInput.add(lblAge);
+
+    textAge = new JTextField();
+    textAge.setBounds(66, 353, 114, 20);
+    textAge.addActionListener(this::addAttendant);
+    panelInput.add(textAge);
+    textAge.setColumns(10);
+
+    JButton btnAdd = new JButton("Add");
+    btnAdd.addActionListener(this::addAttendant);
+    btnAdd.setBounds(10, 381, 78, 23);
+    panelInput.add(btnAdd);
+
+    JButton btnRemove = new JButton("Remove");
+    btnRemove.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        int selectedIndex = list.getSelectedIndex();
+        if (selectedIndex != -1) {
+          attendants.remove(selectedIndex);
+        }
+      }
+    });
+    btnRemove.setBounds(94, 381, 86, 23);
+    panelInput.add(btnRemove);
+
+    algorithm = new DiscreteAlgorithm(10, d -> progressBar.setValue((int) (d * 1000)));
+
+    JPanel panelResult = new JPanel();
+    panelResult.setBounds(544, 11, 370, 489);
+    panelResult.setBorder(BorderFactory.createTitledBorder("Result"));
+    panelMain.add(panelResult);
+    panelResult.setLayout(null);
+
+    JButton btnCalculate = new JButton("Compute");
+    btnCalculate.setBounds(20, 24, 89, 23);
+    panelResult.add(btnCalculate);
+    btnCalculate.addActionListener(e -> executor.submit(this::compute));
+
+    progressBar = new JProgressBar();
+    progressBar.setBounds(119, 28, 226, 14);
+    panelResult.add(progressBar);
+    progressBar.setMinimum(0);
+    progressBar.setMaximum(1000);
+
+    tableResults = new JTable();
+    tableResults.setModel(results);
+
+    JScrollPane scrollResults = new JScrollPane(tableResults);
+    scrollResults.setBounds(20, 59, 325, 353);
+    panelResult.add(scrollResults);
+
+    JPanel panelParams = new JPanel();
+    panelParams.setBounds(329, 11, 205, 489);
+    panelParams.setBorder(BorderFactory.createTitledBorder("Parameters"));
+    panelMain.add(panelParams);
+    panelParams.setLayout(null);
+
+    parameters = new Parameters();
+
+    int positionY = 18;
+    int additionY = 26;
+    for (Map.Entry<Class<? extends ProductivityMap>, ParametersList> entry : parameters
+        .entrySet()) {
+      String name = entry.getKey().getSimpleName();
+      name = name.substring(0, name.length() - 3);
+      ParametersList parameters = entry.getValue();
+
+      final JCheckBox chckbx = new JCheckBox(name);
+      chckbx.setBounds(6, positionY, 150, 23);
+      positionY += additionY;
+      chckbx.setSelected(parameters.getUseThisMap());
+      chckbx.addActionListener(e -> parameters.setUseThisMap(chckbx.isSelected()));
+      panelParams.add(chckbx);
+
+      for (Map.Entry<String, Holder<Double>> parameter : parameters.entrySet()) {
+        final JLabel label = new JLabel(parameter.getKey());
+        label.setBounds(32, positionY, 59, 14);
+        panelParams.add(label);
+
+        final JTextField textField = new JTextField();
+        textField.setBounds(100, positionY - 3, 86, 20);
+        textField.setColumns(10);
+        textField.setText(parameter.getValue().get().toString());
+        parameterBindings
+            .add(new ImmutablePair<JTextField, Holder<Double>>(textField, parameter.getValue()));
+        panelParams.add(textField);
+
+        positionY += additionY;
+      }
+    }
+
+  }
+
+  private void addAttendant(ActionEvent e) {
+    try {
+      Place origin = PlaceFinder.city(textOrigin.getText());
+      double age = Double.parseDouble(textAge.getText());
+      Attendant at = new Attendant(origin, age);
+      attendants.addElement(at);
+      textOrigin.setText("");
+      textAge.setText("");
+    } catch (NotFoundException e1) {
+      // do nothing
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
+    textOrigin.requestFocus();
+  }
+
+  private void compute() {
+    if (attendants.size() > 0) {
+      try {
+
+        for (Pair<JTextField, Holder<Double>> binding : parameterBindings) {
+          try {
+            Double value = Double.parseDouble(binding.getLeft().getText());
+            binding.getRight().set(value);
+          } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return;
+          }
+        }
+
+        ProductivityMapsFactory mapsFactory = new ProductivityMapsFactory(parameters);
+        for (Map.Entry<Class<? extends ProductivityMap>, ParametersList> entry : parameters
+            .entrySet()) {
+          ParametersList list = entry.getValue();
+          if (list.getUseThisMap()) {
+            Class<? extends ProductivityMap> clazz = entry.getKey();
+            mapsFactory.addFactory(clazz);
+          }
+        }
+
+        try {
+          SimpleDateFormat parser = new SimpleDateFormat("yyyyMMdd");
+          Date date = parser.parse(textDate.getText());
+          ArrayList<Attendant> ats = Collections.list(attendants.elements());
+
+          TreeSet<Result> resultSet =
+              algorithm.find(date, ats.toArray(new Attendant[0]), mapsFactory);
+          Object[][] rows = new Object[resultSet.size()][];
+          int i = 0;
+          for (Result r : resultSet) {
+            rows[i] = r.getTableRow();
+            i++;
+          }
+          results.setDataVector(rows, Result.tableColumns);
+        } catch (ParseException e1) {
+          e1.printStackTrace();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    } else {
+      System.out.println("No attendants added");
+    }
+  }
+}
+\end{javacode}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\nointerlineskip
+\texttt{src/main/java/com/jjurm/projects/mpp/util/Holder.java}
+
+\begin{javacode}
+package com.jjurm.projects.mpp.util;
+
+public class Holder<T> {
+
+  protected T value;
+
+  public Holder(T value) {
+    this.value = value;
+  }
+
+  public T get() {
+    return value;
+  }
+
+  public void set(T value) {
+    this.value = value;
+  }
+
+}
+\end{javacode}
+

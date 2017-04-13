@@ -1,7 +1,7 @@
 
 The brain of human relies on oxygen which implies that the level of oxygen in air may influence mental performance. The density of oxygen is proportional to the density of air, which depends on pressure and temperature. After evaluating temperature and pressure as functions of altitude, we can conclude a formula describing air density.
 
-Temperature at altitude $h$ meters above sea level can be approximated by the following formula (valid inside the troposphere):
+The temperature at altitude $h$ meters above sea level can be approximated by the following formula (valid inside the troposphere):
 
 $$T=T_0-Lh$$
 
@@ -11,7 +11,7 @@ The pressure at altitude $h$ is given by:
 
 $$p = p_0 \left(1-\frac{Lh}{T_0}\right)^\frac{gM}{RL}$$
 
-\noindent where $p_0$ is the sea level standard atmospheric pressure, $g$ is the earth-surface gravitational acceleration, $M$ is molar mass of dry air and $R$ is ideal gas constant.
+\noindent where $p_0$ is the sea level standard atmospheric pressure, $g$ is the earth-surface gravitational acceleration, $M$ is the molar mass of dry air and $R$ is ideal gas constant.
 
 According to the \emph{International Standard Atmosphere} the standard values are as follows:
 
@@ -28,15 +28,15 @@ Density can then be calculated using a molar form of the ideal gas law:
 
 $$\rho = \frac{pM}{RT} = \frac{M p_0 \left(1-\frac{Lh}{T_0}\right)^\frac{gM}{RL}  }{ R (T_0-Lh)  }$$
 \begin{figure}[ht]
-	\centering
-		\includegraphics[width=\textwidth]{graph1}
+    \centering
+        \includegraphics[width=\textwidth]{graph1}
     \caption{Air pressure based on altitude}
 \end{figure}
 
 
-Studies \cite{Scholey1999,Chung2008,Chung2004} confirm that increased amount of oxygen improves the cognitive performance of your mind. According to \cite{Chung2008}, hearth rate decreases with more concentrated oxygen in the air, as the blood cells carry more oxygen molecules. Following that, we can assume that lower air density, well known for causing a decrease in hearth rate, causes the opposite effect and lowers your mental performance.
+Studies \cite{Scholey1999,Chung2008,Chung2004} confirm that increased amount of oxygen improves the cognitive performance of your mind. According to \cite{Chung2008}, heart rate decreases with more concentrated oxygen in the air, as the blood cells carry more oxygen molecules. Following that, we can assume that lower air density, well known for causing a decrease in heart rate, causes the opposite effect and lowers your mental performance.
 
-Now we can use the results from various performance tests found in \cite{Research1996} to determine how cognitive function of a human is influenced by lower air pressure. The function that best fit the points of data from this research ended up being a logarithmic curve of the function:
+Now we can use the results from various performance tests found in \cite{Research1996} to determine how cognitive functions of a human are influenced by lower air pressure. The function that best fit the points of data from this research ended up being a logarithmic curve of the function:
 \begin{center}
 $f(x)=log_a\left(x-b\right)+c$
 \end{center}
@@ -47,8 +47,8 @@ c &= 14.05537
 \end{align*}
 
 \begin{figure}[ht]
-	\centering
-    	\includegraphics[width=0.4\textwidth]{graph2}
+    \centering
+        \includegraphics[width=0.4\textwidth]{graph2}
     \caption{Human productivity based on air pressure}
 \end{figure}
 
@@ -56,11 +56,11 @@ Finally we need to combine both aforementioned functions:
 
 $$g(h)=f(\rho)=log_a\left(\rho-b\right)+c=log_a\left(\dfrac{M p_0 \left(1-\dfrac{Lh}{T_0}\right)^{\dfrac{gM}{RL}}  }{ R (T_0-Lh)  }-b\right)+c$$
 
-Using the variables mentioned before we can estimate a person's productivity in a certain altitude by dividing the value of $g(h)$ by the value of $g(0)$, in other word we will take a person's productivity at sea level as the base line. 
+Using the variables mentioned earlier we can estimate a person's productivity in a certain altitude by dividing the value of $g(h)$ by the value of $g(0)$, in other words, we will take a person's productivity at sea level as the baseline. 
 
 \begin{figure}[ht]
-	\centering
-    	\includegraphics[width=\textwidth]{graph3}
+    \centering
+        \includegraphics[width=\textwidth]{graph3}
     \caption{Human productivity based on altitude}
 \end{figure}
 
