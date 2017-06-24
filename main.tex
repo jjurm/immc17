@@ -34,12 +34,12 @@
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} % hyperlinks
 \usepackage{multirow} % for tables
 \usepackage[titletoc,title]{appendix} % name of appendix chapters
+\usepackage{fancyhdr} % headers and footers
 
 \usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 
-\usepackage{minted}
+\usepackage{minted} % syntax highlighting
 \usepackage{pdfpages}
 
 
@@ -56,6 +56,15 @@
 \addbibresource{websites.bib}
 
 \setlength{\parskip}{0.2em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Team \#2017061}
+\rhead{Page \thepage\ of 21}
+%\renewcommand{\headrulewidth}{0pt}
+
+\headheight 26pt
+\headsep 16pt
 
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
@@ -74,16 +83,20 @@
 \setlength{\belowdisplayskip}{0pt}
 
 %----- Beginning -----
-\vfill
-\maketitle
-\vfill
+\thispagestyle{empty}
+
+\vspace{1cm}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{immc_form.pdf}
+\end{center}
+
+\vspace{2cm}
 \section{Summary}
 \import{content/}{summary}
 \vfill
 
 \clearpage
-
-%\thispagestyle{empty}
+%\setcounter{page}{1}
 \tableofcontents
 %{\small\tableofcontents}
 	\clearpage
