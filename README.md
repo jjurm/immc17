@@ -9,7 +9,7 @@ Team members:
 * Juraj Mičko
 * Michal Pándy
 
-Find the original PDF here: [immc17.pdf](https://github.com/jjurm/immc17/blob/master/immc17.pdf)
+Find the original PDF here: [immc17.pdf](https://docs.google.com/viewer?url=https://github.com/jjurm/immc17/raw/master/immc17.pdf)
 
 ## Summary
 
