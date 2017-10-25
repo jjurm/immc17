@@ -9,6 +9,8 @@ Team members:
 * Juraj Mičko
 * Michal Pándy
 
+Find the original PDF here: [immc17.pdf](https://raw.githubusercontent.com/jjurm/immc17/immc17.pdf)
+
 ## Summary
 
 Trying to solve very difficult challenges on your own can only get you so far. Sooner or later you realize the need of help from others. Attending international meetings is a great way to broaden ones horizons and it also proposes the opportunity to collaborate with people from many different countries, who might have a completely contrasting perception of the problem at hand. Hosting such an event introduces a crucial issue to the organizers, because they need to be able to choose the perfect spot for the meeting to maximize productivity without giving the attendants recovery time from their trips for financial reasons.
